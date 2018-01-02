@@ -1,0 +1,44 @@
+<div class="side-form">
+    <h2>{{title}}</h2>
+    <hr/>
+    <div class="form-container">
+        <form [formGroup]="circuitForm" (ngSubmit)="saveCircuit()">
+            <div class="form-group">
+                <label for="circuitName">Circuit</label>
+                <input type="text" class="form-control" formControlName="circuit" />
+                <!-- <div *ngIf="circuitForm.get('circuit')"> Name is too short. </div>  -->
+            </div>
+            <div class="form-group">
+                <label for="parish">Associated Parish</label>
+                <select class="form-control" name="parish" formControlName="parishCode">
+                    <option value="">Please Select</option>
+                    <option *ngFor="let parish of parishes" [ngValue]="parish.code">{{parish.parish }}</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="btn" (click)="cancelAction()">Cancel</button>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-success pull-right" type="submit">Save</button>
+                </div>
+            </div>
+        </form>
+        <div *ngIf="!isNew">
+            <div class="well well-lg" id="metadata">
+                <div class="row">
+                    <div class="col-md-4">
+                        Created At:
+                    </div>
+                    <div class="col-md-8 date">{{createdAt | date:'MMMM dd, yyyy hh:mm'}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        Last Modified:
+                    </div>
+                    <div class="col-md-8 date">{{lastModified | date:'MMMM dd, yyyy hh:mm'}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

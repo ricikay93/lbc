@@ -1,0 +1,118 @@
+.single {
+    padding: 30px 15px;
+    margin-top: 50px;
+    background: #fcfcfc;
+    border: 1px solid #f0f0f0;
+}
+
+.single h3.side-title {
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    font-size: 20px;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.single h3.side-title:after {
+    content: '';
+    width: 60px;
+    height: 1px;
+    background: #ff173c;
+    display: block;
+    margin-top: 6px;
+}
+
+.single ul {
+    margin-bottom: 0;
+}
+
+.single li a {
+    color: #666;
+    font-size: 14px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 40px;
+    display: block;
+    text-decoration: none;
+}
+
+.single li a:hover {
+    color: #ff173c;
+}
+
+.accordion-toggle:hover:before {
+    color: #ff173c;
+}
+
+.single li:last-child a {
+    border-bottom: 0;
+}
+
+.title {
+    font-size: 40px;
+    background-color: #666666;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: rgba(255, 255, 255, 0.5) 0px 3px 3px;
+}
+
+.accordion-toggle {
+    position: relative;
+    margin-right: 4px;
+}
+
+.accordion-toggle.active:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 19px;
+    width: 0;
+    height: 0;
+    border-bottom: 5px solid #f00;
+    border-left: 5px solid rgba(0, 0, 0, 0);
+    border-right: 5px solid rgba(0, 0, 0, 0);
+}
+
+.accordion-toggle:before {
+    cursor: pointer;
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 17px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid #000;
+    border-left: 5px solid rgba(0, 0, 0, 0);
+    border-right: 5px solid rgba(0, 0, 0, 0);
+}
+
+.accordion-toggle.active:before {
+    display: none;
+}
+
+.accordion-content li {
+    color: #666;
+    font-size: 14px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 40px;
+    display: block;
+    text-decoration: none;
+}
+
+.accordion-toggle.active {
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    color: #ff0000;
+}
+
+.accordion-content {
+    display: none;
+}
+
+a {
+    cursor: pointer;
+}
