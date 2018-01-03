@@ -15,7 +15,7 @@ import { ChurchPositionsComponent } from '../components/church-positions/church-
 
 const circuitChildrenRoutes: Routes = [
     { path: 'add', component: CircuitAddEditComponent },
-    { path: ':id/edit', component: CircuitAddEditComponent }
+    { path: 'edit/:id', component: CircuitAddEditComponent }
 ];
 
 const churchChildrenRoutes: Routes = [

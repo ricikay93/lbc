@@ -22,6 +22,7 @@ var get_all_parishes = function(req, res) {
 
 var get_a_parish = function(req, res) {
     Parish.findOne({
+        attributes: ['code', 'parish'],
         where: {
             code: req.params.code
         }

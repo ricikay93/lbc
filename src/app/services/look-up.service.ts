@@ -41,8 +41,8 @@ export class LookUpService {
     return this.http.get(url).map(res => <Parish[]>res.json());
   }
 
-  getParishByCode(id: string): Observable<Parish> {
-    const url = this.churchUrl + 'parishes/' + id;
+  getParishByCode(code: string): Observable<Parish> {
+    const url = this.churchUrl + 'parishes/' + code;
     return this.http.get(url).map(res => <Parish>res.json());
   }
 }

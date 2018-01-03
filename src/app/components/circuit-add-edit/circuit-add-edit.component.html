@@ -10,7 +10,7 @@
             </div>
             <div class="form-group">
                 <label for="parish">Associated Parish</label>
-                <select class="form-control" name="parish" formControlName="parishCode">
+                <select class="form-control" formControlName="parishCode">
                     <option value="">Please Select</option>
                     <option *ngFor="let parish of parishes" [ngValue]="parish.code">{{parish.parish }}</option>
                 </select>

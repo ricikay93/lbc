@@ -20,13 +20,13 @@
         "styles": [
             "styles.css",
             "../node_modules/@fortawesome/fontawesome/styles.css",
+            "../node_modules/bootstrap/dist/css/bootstrap.min.css",
             "../node_modules/font-awesome/css/font-awesome.css",
             "../node_modules/sweetalert2/dist/sweetalert2.min.css"
         ],
         "scripts": [
             "../node_modules/jquery/dist/jquery.slim.min.js",
             "../node_modules/bootstrap/dist/js/bootstrap.min.js",
-            "../node_modules/@fortawesome/fontawesome/index.js",
             "../node_modules/sweetalert2/dist/sweetalert2.min.js"
         ],
         "environmentSource": "environments/environment.ts",

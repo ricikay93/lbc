@@ -1,12 +1,14 @@
 import { Parish } from './lookUp';
 
-export class Circuit {
+export interface Circuit {
     id: number;
     circuit: string;
     parishCode: number;
     createdAt: Date;
-    lastModified: Date;
+    updatedAt: Date;
 }
+
+
 
 export class ChurchWorshipTime {
     id: number;

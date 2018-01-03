@@ -6,7 +6,8 @@ import { PubSubService, CircuitService, LookUpService } from '../../services/';
 import { Circuit } from '../../models/';
 
 import * as $ from 'jquery';
-
+import swal from 'sweetalert2';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 @Component({
   selector: 'app-circuits',
   templateUrl: './circuits.component.html',
@@ -53,22 +54,38 @@ export class CircuitsComponent implements OnInit, OnDestroy {
   }
 
   deleteCircuit(id: number): void {
-    this.circuitService.deleteCircuit(id);
-    this.pubSubService.publish('circuits-updated');
+    swal({
+      title: 'Are you sure?',
+      text: 'You wont be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        this.circuitService.deleteCircuit(id).subscribe(
+          res => swal('Deleted!', res.message, 'success' )
+        );
+
+        this.pubSubService.publish('circuits-updated');
+      }
+    });
+
   }
 
   getParish(code: string): string {
-    let parish: string;
 
-    if (!code) {
-      parish = 'No Parish Selected';
+
+    if (code === null) {
+      return 'No Parish Selected';
     } else {
       this.lookUpService.getParishByCode(code).subscribe(
-        result => parish = result.parish
+        function(result){
+          return result.parish;
+        }
       );
     }
-
-    return parish;
   }
 
   ngOnDestroy() {

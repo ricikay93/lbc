@@ -21,20 +21,18 @@ export class CircuitService {
    * This service function that calls the http request to get a circuit by code
    * @param id the circuit id to retrieve the circuit
    */
-  getCircuitByCode(id: string | number): Observable<Circuit> {
-    const code = typeof id === 'string' ? Number(id) : id;
-    const url = this.churchUrl + '/' + code;
-
-    return this.http.get(url).map(res => <Circuit>res.json());
+  getCircuitByCode(id: number): Observable<Circuit> {
+    const url = this.churchUrl + '/' + id;
+console.log(url);
+    return this.http.get(url).map(res => res.json());
   }
 
   /**
    * This service function that calls the http request to delete
    * @param id The circuit id to delete
    */
-  deleteCircuit(id: string | number): Observable<Message> {
-    const code = typeof id === 'string' ? Number(id) : id;
-    const url = this.churchUrl + '/' + code;
+  deleteCircuit(id: number): Observable<Message> {
+    const url = this.churchUrl + '/' + id;
 
     return this.http.delete(url).map(res => <Message>res.json());
   }
