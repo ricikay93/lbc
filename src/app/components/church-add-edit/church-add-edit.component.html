@@ -1,0 +1,195 @@
+<div class="side-form">
+    <div class="container">
+        <div class="wizard" id="myWizard">
+            <section>
+                <h4 class="text-center">{{title}}</h4>
+            </section>
+            <div class="wizard__progress">
+                <ul class="wizard__labels nav nav-tabs">
+                    <li style="width:25%;" class="col-xs-12" *ngFor="let wizard of wizard_tabs" [ngClass]="{'active': wizard.isSelected}">
+                        <a href="{{wizard.content}}" data-toggle="tab">
+                            <i class="{{wizard.icon}} wizard__icon"></i> {{ wizard.title }}
+                        </a>
+                    </li>
+                </ul>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" style="width: 25%;"> </div>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane fade in" id="churchInfo" [ngClass]="{'active show': isSelected('#churchInfo')}">
+                    <section>
+                        <div class="form-group">
+                            <label>Church Name</label>
+                            <input type="text" name="churchName" class="form-control">
+                        </div>
+                        <div class="form-group ">
+                            <label class="control-label " for="nid-type ">Circuit </label>
+                            <select class="form-control">
+                                <option value="0">Please Select</option>
+                                <option *ngFor="let circuit of circuits" >{{ circuit.circuit }}</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group ">
+                                    <label class="control-label " for="seat_quota "> Date Constituted <span class="required ">*</span></label>
+                                    <input type="date" class="form-control" id="date_const ">
+                                </div>
+                            </div>
+                            <!-- / end col -->
+                            <div class="col-sm-4 ">
+                                <div class="form-group ">
+                                    <label class="control-label " for="seat_quota "> Seating Capacity <span class="required ">*</span></label>
+                                    <input type="number " class="form-control input-sm " id="seat_quota ">
+                                </div>
+                            </div>
+                            <!-- / end col -->
+                        </div>
+                        <!-- worship times panel  -->
+                        <div class="panel">
+                            <div class="panel-header">
+                                <span class="text-center">Worship Times</span>
+                            </div>
+                            <div class="panel-body" style="height: 200px;">
+                                <div class="add-content">
+                                    <div class="input-group">
+                                        <input type="time" class="form-control input-sm ">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-success btn-add btn-sm" type="button" (click)="addWorshipTime()">
+                                                <span class="fa fa-plus"></span>
+                                        </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="content" style="height: 120px;overflow-y:auto">
+                                    <!-- <div class="input-group" *ngFor="let worship_time of church.worship_times">
+                                        <input type="time" class="form-control input-sm ">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-danger btn-delete" type="button">
+                                                <span class="fa fa-minus" (click)="deleteWorshipTime(worship_time)"></span>
+                                        </button>
+                                        </span>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                    </section>
+                </div>
+                <div class="tab-pane fade in " id="addressContact" [ngClass]="{'active show' : isSelected('#addressContact')}">
+                    <section>
+
+                        <div class="form-group">
+                            <label for="church_street">Street</label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="church_street">Town</label>
+                                    <input type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="parish">Associated Parish</label>
+                                    <select class="form-control">
+                                        <option value="">Please Select</option>
+                                        <option *ngFor="let parish of parishes" [ngValue]="parish.code">{{parish.parish }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel">
+                            <div class="panel-header">Contacts</div>
+                            <div class="panel-body">
+                                <div class="add-content">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <select class="form-control">
+                                                <option>e</option>>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control input-sm ">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-success btn-add" type="button" (click)="addContact()">
+                                                    <span class="fa fa-plus"></span>
+                                                </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="content" style="height: 120px;overflow-y:auto">
+                                    <!-- <div class="input-group" *ngFor="let contact of church.contacts">
+                                        <input type="time" class="form-control input-sm ">
+                                        <span class="input-group-btn">
+                                                <button class="btn btn-danger btn-delete" type="button">
+                                                    <span class="fa fa-minus" (click)="deleteContact(contact)"></span>
+                                        </button>
+                                        </span>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+
+                </div>
+                <div class="tab-pane fade in" id="churchMission" [ngClass]="{'active show': isSelected('#churchMission')}">
+                    <section>
+                        <div class="panel">
+                            <div class="panel-header">Church Missions</div>
+                            <div class="panel-body">
+                                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#exampleModal">Add Mission</button>
+                            </div>
+                            <div class="mission-content">
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+            </div>
+
+            <div>
+                <section class="text-right">
+                    <button type="button " class="btn btn-primary btn-sm " (click)="prevPage()" [ngClass]="{'hide': isFirstPage()}">Back</button>
+                    <button type="button " class="btn btn-default btn-sm" (click)="nextPage()" [ngClass]="{'hide': isLastPage()}">Continue</button>
+                    <button type="button " class="btn btn-default btn-sm next" [ngClass]="{'hide': !isLastPage()}">Save</button>
+                    <button type="button " class="btn btn-default btn-sm next " (click)="cancelAction()">Cancel</button>
+                </section>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">ChurchMission</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="mission_text">Mission</label>
+                        <textarea class="form-control" name="mission_text"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="addMission()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>

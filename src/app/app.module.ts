@@ -26,6 +26,8 @@ import { VisitorsComponent } from './components/visitors/visitors.component';
 import { SocialOutreachComponent } from './components/social-outreach/social-outreach.component';
 import { ChurchClassesComponent } from './components/church-classes/church-classes.component';
 import { VisitorAddEditComponent } from './components/visitor-add-edit/visitor-add-edit.component';
+import { ChurchItemComponent } from './components/church-item/church-item.component';
+import { ChurchAddEditComponent } from './components/church-add-edit/church-add-edit.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +46,9 @@ import { VisitorAddEditComponent } from './components/visitor-add-edit/visitor-a
     VisitorsComponent,
     SocialOutreachComponent,
     ChurchClassesComponent,
-    VisitorAddEditComponent
+    VisitorAddEditComponent,
+    ChurchItemComponent,
+    ChurchAddEditComponent
   ],
   imports: [
     BrowserModule,

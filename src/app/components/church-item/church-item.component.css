@@ -65,6 +65,7 @@
 .label {
     color: black !important;
     text-align: right;
+    vertical-align: middle;
 }
 
 .tab-pane {

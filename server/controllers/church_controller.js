@@ -87,7 +87,8 @@ var get_church_contacts = function(req, res) {
 var get_contact = function(req, res) {
     ChurchContact.find({
         where: {
-            id: req.params.code
+            id: req.params.code,
+            church_id: req.params.church
         }
     }).then(function(result) {
         res.json(result);
@@ -104,8 +105,7 @@ var add_contact = function(req, res) {
     });
 }
 
-
-var update_contacts = function(req, res) {
+var update_contact = function(req, res) {
     ChurchContact.update(req.body, {
         where: {
             id: req.params.code,
@@ -118,7 +118,7 @@ var update_contacts = function(req, res) {
     });
 };
 
-var delete_contacts = function(req, res) {
+var delete_contact = function(req, res) {
     ChurchContact.destroy(req.body, {
         where: {
             id: req.params.code,
@@ -173,7 +173,7 @@ var get_church_missions = function(req, res) {
     });
 };
 
-var update_missions = function(req, res) {
+var update_mission = function(req, res) {
     ChurchMission.update(req.body, {
         where: {
             id: req.params.code,
@@ -186,7 +186,7 @@ var update_missions = function(req, res) {
     });
 };
 
-var delete_missions = function(req, res) {
+var delete_mission = function(req, res) {
     ChurchMission.destroy({
         where: {
             id: req.params.code
@@ -203,16 +203,19 @@ module.exports = {
     getChurchByCode: get_church,
     addChurch: add_church,
     updateChurch: update_church,
+    deleteChurch: delete_church,
 
     getChurchContactsByChurch: get_church_contacts,
     getChurchContactByCode: get_contact,
     getChurchContacts: get_all_contacts,
-    updateContacts: update_contacts,
-    deleteContacts: delete_contacts,
+    updateContact: update_contact,
+    deleteContact: delete_contact,
+    addContact: add_contact,
 
     getChurchMissionsByChurch: get_church_missions,
     getChurchMissionByCode: get_mission,
     getChurchMissions: get_missions,
-    updateMission: update_missions,
-    deleteMission: delete_missions
+    updateMission: update_mission,
+    deleteMission: delete_mission,
+    addMission: add_mission,
 };

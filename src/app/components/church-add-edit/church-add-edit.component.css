@@ -1,0 +1,154 @@
+.side-form {
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    height: 100%;
+    overflow: auto;
+    background: #fff;
+    padding: 20px;
+    border-left: 1px solid #e0e0e0;
+}
+
+
+/* #date-control div:first-child{
+    padding-right: 0px;
+}
+
+#date-control div:last-child{
+    
+} */
+
+.tab-content {
+    padding: 10px;
+    height: 540px;
+}
+
+.hide {
+    display: none;
+}
+
+#date-control div:not(:first-child) {
+    padding-left: 5px;
+}
+
+#date-control div:not(:last-child) {
+    padding-right: 0px;
+}
+
+
+/* wizard */
+
+.wizard {
+    background-color: #fff;
+}
+
+.wizard .progress {
+    border-radius: 0;
+    box-shadow: none;
+    height: 5px;
+    background-color: #e1e1e5;
+}
+
+.wizard .progress .progress-bar {
+    box-shadow: none;
+}
+
+.wizard .tab-content {
+    position: relative;
+}
+
+.wizard .nav-tabs {
+    background-color: transparent !important;
+}
+
+.wizard .nav-tabs li {
+    padding: 0;
+}
+
+.wizard .nav-tabs li.active a {
+    color: #333333;
+}
+
+.wizard .nav-tabs li.active~li a {
+    color: #e1e1e5;
+}
+
+.wizard .nav-tabs li a {
+    background-color: transparent !important;
+    color: #5cb85c;
+    padding: 15px 0;
+    cursor: pointer;
+    transition: color 0.4s ease-in;
+}
+
+.wizard .nav-tabs li.success a {
+    color: #5cb85c;
+}
+
+.wizard__icon {
+    display: block;
+    width: 100%;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.wizard__labels {
+    list-style-type: none;
+    text-align: center;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+@media (max-width: 500px) {
+    .wizard__progress {
+        padding: 0px 22px 22px 22px;
+    }
+    .wizard__progress .progress {
+        margin-top: 10px;
+    }
+    .wizard__labels {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+    }
+    .wizard__labels li a {
+        border: 1px solid #D7D7D7 !important;
+        border-radius: 3px;
+        margin-bottom: 10px;
+        padding: 11px 12px 13px 14px !important;
+        background: #F8F8F8;
+    }
+    .wizard__icon {
+        display: inline;
+        font-size: 15px;
+        margin: 0 5px 0 0;
+    }
+}
+
+
+/* ~~~~~~~~~~ LEGEND ~~~~~~~~~~ */
+
+.legend__list {
+    margin: 0;
+}
+
+.legend__item {
+    margin-right: 10px;
+    font-size: 12px;
+    font-size: 0.75rem;
+}
+
+.legend__item--success i {
+    color: #5cb85c;
+}
+
+.legend__item--error i {
+    color: #d9534f;
+}
+
+.legend__item--default i {
+    color: #a6a6a6;
+}
