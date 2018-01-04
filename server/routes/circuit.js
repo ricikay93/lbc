@@ -7,7 +7,7 @@ router.route('/')
     .get(circuitController.getAllCircuits)
     .post(circuitController.addCircuit);
 
-router.route('/:id')
+router.route('/:code')
     .get(circuitController.getCircuitByCode)
     .put(circuitController.updateCircuit)
     .delete(circuitController.deleteCircuit);

@@ -35,7 +35,7 @@ export class ChurchMissions {
 
 export class Church {
     id: number;
-    church_name: string;
+    church: string;
     seat_quota: number;
     street: string;
     town: string;

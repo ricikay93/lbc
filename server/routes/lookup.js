@@ -18,32 +18,32 @@ router.route('/parishes')
 router.route('/parishes/:code')
     .get(lookUpController.getParishByCode);
 
-// // marital status
-// router.route('/marital_statuses')
-//     .get(lookUpController.getAllMaritalStatus);
+// marital status
+router.route('/marital_statuses')
+    .get(lookUpController.getAllMaritalStatus);
 
-// router.route('/marital_statuses/:code')
-//     .get(lookUpController.getMaritalStatusByCode);
+router.route('/marital_statuses/:code')
+    .get(lookUpController.getMaritalStatusByCode);
 
-// // contacts
-// router.route('/contactTypes')
-//     .get(lookUpController.getContactTypes);
+// contacts
+router.route('/contactTypes')
+    .get(lookUpController.getContactTypes);
 
-// router.route('/contactTypes/church')
-//     .get(lookUpController.getChurchContactTypes);
+router.route('/contactTypes/church')
+    .get(lookUpController.getChurchContactTypes);
 
-// router.route('/contactTypes/people')
-//     .get(lookUpController.getPeopleContactTypes);
+router.route('/contactTypes/people')
+    .get(lookUpController.getPeopleContactTypes);
 
-// router.route('/contactTypes/:code')
-//     .get(lookUpController.getContactType);
+router.route('/contactTypes/:code')
+    .get(lookUpController.getContactType);
 
-// // months
-// router.route('/months')
-//     .get(lookUpController.getMonths);
+// months
+router.route('/months')
+    .get(lookUpController.getMonths);
 
-// router.route('/months/:code')
-//     .get(lookUpController.getMonth);
+router.route('/months/:code')
+    .get(lookUpController.getMonthByCode);
 
 
 module.exports = router;
