@@ -7,7 +7,7 @@
             <div class="wizard__progress">
                 <ul class="wizard__labels nav nav-tabs">
                     <li style="width:25%;" class="col-xs-12" *ngFor="let wizard of wizard_tabs" [ngClass]="{'active': wizard.isSelected}">
-                        <a href="{{wizard.content}}" data-toggle="tab">
+                        <a href="{{wizard.content}}" data-toggle="tab" (click)="selectPage(wizard.order)">
                             <i class="{{wizard.icon}} wizard__icon"></i> {{ wizard.title }}
                         </a>
                     </li>
