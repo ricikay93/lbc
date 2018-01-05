@@ -4,6 +4,8 @@ import {Church} from '../../models/';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
+import { ChurchService } from '../../services/';
+import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-church-item',
   templateUrl: './church-item.component.html',
@@ -12,23 +14,22 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 export class ChurchItemComponent implements OnInit, OnDestroy {
 
   church: Church;
-  private sub: any;
+  private sub: Subscription;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute
-    // private churchService: ChurchServiceService
+    private route: ActivatedRoute,
+    private churchService: ChurchService
   ) {}
 
   ngOnInit() {
-    // this.sub = this.route.params.subscribe((params: Params) => {
-    //   // this.churchService.getChurch(+params['churchId']).subscribe(church => this.church = church);
-    // });
-    console.log('EDit');
+    this.sub = this.route.params.subscribe((params: Params) => {
+      this.churchService.getChurchByCode(+params['churchId']).subscribe(data => this.church = data);
+    });
   }
 
-  editChurch() {
-    alert('Edit');
+  editChurch(id: number) {
+    this.router.navigate([ '/main/circuit/churches', { outlets: { 'task': ['edit', id] } }]);
   }
 
   ngOnDestroy() {
