@@ -3,15 +3,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Parish, Message } from '../../models/';
 import { Observable } from 'rxjs/Observable';
 import { slideInOutAnimation } from '../../animations/slide-in-out.animation';
-
+import { INgxMyDpOptions, IMyDateModel, IMyInputFieldChanged } from 'ngx-mydatepicker';
 import { LookUpService, PubSubService, CircuitService, ChurchService } from '../../services/';
 import { Church, ChurchContact, ChurchMissions, ChurchWorshipTime, Circuit } from '../../models/';
-import $ from 'jquery';
+import * as $ from 'jquery';
+import swal from 'sweetalert2';
 @Component({
   selector: 'app-church-add-edit',
   templateUrl: './church-add-edit.component.html',
@@ -29,6 +30,14 @@ export class ChurchAddEditComponent implements OnInit {
   parishes: Parish[];
 
   circuits: Circuit[];
+  deletedContacts: number[];
+
+  myOptions: INgxMyDpOptions = {
+    dateFormat: 'mmm dd, yyyy',
+    sunHighlight: true,
+    maxYear: new Date().getFullYear()
+  };
+
   // tabs
   wizard_tabs = [
     {
@@ -60,26 +69,77 @@ export class ChurchAddEditComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private lookUpService: LookUpService,
-    private circuitService: CircuitService
-    // private churchService: ChurchServiceService
+    private circuitService: CircuitService,
+    private churchService: ChurchService,
+    private pubSubService: PubSubService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit() {
     this.isNew = true;
     this.getParishes();
     this.getCircuits();
+
+    this.createForm();
   }
 
   private createForm(): void {
-    this.churchForm = new FormGroup({
-      church: new FormControl('', Validators.required),
-      seatQuota: new FormControl('', [Validators.required, Validators.min(1)]),
-      circuit: new FormControl('', Validators.required),
-      street: new FormControl('', Validators.required),
-      town: new FormControl('', Validators.required),
-      parish: new FormControl('', Validators.required),
-      dateConst: new FormControl('', [Validators.required, Validators.pattern('MMM dd, yyyy')])
+    // this.churchForm = new FormGroup({
+    //   church: new FormControl('', Validators.required),
+    //   seatQuota: new FormControl('', [Validators.required, Validators.min(1)]),
+    //   circuit: new FormControl('', Validators.required),
+    //   street: new FormControl('', Validators.required),
+    //   town: new FormControl('', Validators.required),
+    //   parish: new FormControl('', Validators.required),
+    //   dateConst: new FormControl({ jsdate: new Date() }, Validators.required),
+    //  // contacts:  this.churchForm.
+    //   // this.churchForm.array([ this.createItem() ])
+    // });
+
+    this.churchForm = this.fb.group({
+      church: ['', Validators.required],
+      seatQuota: ['', [Validators.required, Validators.min(1)]],
+      circuit: ['', Validators.required],
+      street: ['', Validators.required],
+      town: ['', Validators.required],
+      // parish: ['', Validators.required],
+      dateConst: ['', Validators.required],
+      contacts: this.fb.array([this.createContact()])
     });
+
+
+    // this.churchForm = this.fb.group({
+    //   name: ['', [Validators.required, Validators.minLength(2)]],
+    //   account: this.fb.group({
+    //     email: ['', Validators.required],
+    //     confirm: ['', Validators.required]
+    //   });
+  }
+
+  createContact(): FormGroup {
+    return this.fb.group(new ChurchContact());
+  }
+
+  saveChurch(): void {
+
+    const churchID = Number(this.route.snapshot.params['id']);
+
+    if (churchID) {
+      alert('update church');
+      //   this.churchService.updateChurch(this.churchForm.value, churchID).subscribe(
+      //     result => {
+      //       alert('Message: ' + result.message);
+      this.pubSubService.publish('churches-updated');
+      //     }
+      //   );
+    } else {
+      alert('save church');
+      //   this.churchService.saveChurch(this.churchForm.value).subscribe(
+      //     result => {
+      //       alert('Message: ' + result.message);
+      this.pubSubService.publish('churches-updated');
+      //     });
+    }
   }
 
   addMission(): void {
@@ -87,22 +147,45 @@ export class ChurchAddEditComponent implements OnInit {
   }
 
   deleteMission(missionDelete: ChurchMissions): void {
-    // const missions = this.church.missions;
-    // for (let i = 0; i < missions.length; i++) {
-    //   const mission = missions[i];
-    //   if ( mission.mission === missionDelete.mission) {
-    //     missions.splice(i, 1);
-    //     break;
-    //   }
-    // }
+
+  }
+
+  onDateChanged(event: IMyDateModel): void {
+    this.churchForm.get('dateConst').patchValue(new Date(event.jsdate));
+    // console.log('Date JSDATE :' + JSON.stringify(this.churchForm.get('dateConst').value) );
+  }
+
+  onInputFieldChanged(event: IMyInputFieldChanged) {
+    this.churchForm.get('dateConst').patchValue(new Date(event.value));
   }
 
   addContact(): void {
-
+    let items;
+    items = this.churchForm.get('contacts') as FormArray;
+    items.push(this.createContact());
   }
 
-  deleteContact(contactDelete: ChurchContact): void {
+  deleteContact(id: number): void {
+    swal({
+      title: 'Are you sure?',
+      text: 'You wont be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        let items;
+        let item;
 
+        items = this.churchForm.get('contacts') as FormArray;
+        item = items.splice(id, 1);
+
+        this.deletedContacts.push(item.id);
+        swal('Deleted!', 'Success!', 'success');
+      }
+    });
   }
 
   addWorshipTime(): void {
@@ -114,7 +197,7 @@ export class ChurchAddEditComponent implements OnInit {
   }
 
   getCircuits() {
-   this.circuitService.getCircuits().subscribe(
+    this.circuitService.getCircuits().subscribe(
       data => this.circuits = data
     );
   }
@@ -202,14 +285,29 @@ export class ChurchAddEditComponent implements OnInit {
   }
 
   cancelAction(): void {
-    this.goBack();
+
+    swal({
+      title: 'Are you sure?',
+      text: 'All changes will not be saved',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.goBack();
+      }
+    });
+
   }
 
   private goBack(): void {
     if (this.isNew) {
-      this.router.navigate(['../'], { relativeTo: this.route, queryParams: {} });
+      this.router.navigate(['/main/circuit/churches'], { queryParams: {} });
     } else {
-      this.router.navigate(['../../'], { relativeTo: this.route, queryParams: {} });
+      const churchID = Number(this.route.snapshot.params['id']);
+      this.router.navigate(['/main/circuit/churches/view', churchID], { queryParams: {} });
     }
   }
 
