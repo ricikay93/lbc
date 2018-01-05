@@ -4,7 +4,7 @@ import {Church} from '../../models/';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs/Subscription';
-import {PubSubService } from '../../services/';
+import {PubSubService, ChurchService } from '../../services/';
 
 import * as $ from 'jquery';
 import swal, { SweetAlertOptions } from 'sweetalert2';
@@ -17,18 +17,22 @@ import swal, { SweetAlertOptions } from 'sweetalert2';
 })
 export class ChurchesComponent implements OnInit, OnDestroy {
 
-  church: Church;
+  churches: Church[];
   subscription: Subscription;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private renderer: Renderer,
-    private pubSubService: PubSubService
-    // private churchService: ChurchService,
+    private pubSubService: PubSubService,
+    private churchService: ChurchService
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.loadChurches();
+    // reload products when updated
+    this.subscription = this.pubSubService.on('churches-updated').subscribe(() => this.loadChurches());
+   }
 
   addChurch(): void {
     this.router.navigate([ './main/circuit/churches', { outlets: { 'task': ['add'] } }]);
@@ -38,8 +42,8 @@ export class ChurchesComponent implements OnInit, OnDestroy {
     this.router.navigate([ '/main/circuit/churches', { outlets: { 'task': ['edit', 6] } }]);
   }
 
-  getChurches(): void {
-    // this.churchService.getChurches().subscribe(churches => this.churches = churches);
+  loadChurches(): void {
+    this.churchService.getChurches().subscribe(data => this.churches = data);
   }
 
   showChurch(): void {
@@ -47,7 +51,8 @@ export class ChurchesComponent implements OnInit, OnDestroy {
   }
 
   deleteChurch(id: number): void {
-
+    const service = this.churchService;
+    const update = this.pubSubService;
     swal({
       title: 'Are you sure?',
       text: 'You wont be able to revert this!',
@@ -58,13 +63,12 @@ export class ChurchesComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Yes, delete it!'
     }).then(function (result) {
       if (result.value) {
-             swal(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
+       service.deleteChurch(id).subscribe(
+          res => {
+            swal('Deleted!', res.message, 'success' );
+           update.publish('churches-updated');
+          }
         );
-
-        this.pubSubService.publish('churches-updated');
       }
     });
 

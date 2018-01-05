@@ -1,4 +1,14 @@
 <div class="row">
+    <div class="col-md-12">
+        <div class="well well-lg text-center" style="margin: 25%;">
+            <p>No Churches in system</p>
+            <button class="btn btn-success btn-block" (click)="addChurch();">Add Church</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="row" *ngIf="churches?.length > 0">
     <div class="col-md-4">
         <div class="row" style="margin-bottom: 10px;">
             <div class="col-md-12">
@@ -13,10 +23,10 @@
             </div>
             <div class="panel-body">
                 <div class="list-group">
-                    <a class="list-group-item" (click)='showChurch()'>
-                        <div class="desc"> uu</div>
+                    <a class="list-group-item" (click)='showChurch()' *ngFor="let churchInfo of churches">
+                        <div class="desc">{{ churchInfo.church }}</div>
                         <div class="options text-right">
-                            <a class="fa fa-edit" title="Edit" (click)='editChurch();$event.stopPropagation()'> Edit</a> | <a class="fa fa-trash" title="Delete" (click)='deleteChurch();$event.stopPropagation()'> Delete</a>
+                            <a class="fa fa-edit" title="Edit" (click)='editChurch(churchInfo.id);$event.stopPropagation()'> Edit</a> | <a class="fa fa-trash" title="Delete" (click)='deleteChurch(churchInfo.id);$event.stopPropagation()'> Delete</a>
                         </div>
                     </a>
                 </div>
@@ -27,6 +37,7 @@
         <router-outlet></router-outlet>
     </div>
 </div>
+
 
 <div class="view-side-form">
     <router-outlet name="task"></router-outlet>
