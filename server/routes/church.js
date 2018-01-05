@@ -8,10 +8,10 @@ router.route('/')
     .get(churchController.getChuches)
     .post(churchController.addChurch);
 
-// router.route('/:code')
-//     .get(churchController.getChurchByCode)
-//     .put(churchController.updateChurch)
-//     .delete(churchController.deleteChurch);
+router.route('/:code')
+    .get(churchController.getChurchByCode)
+    .put(churchController.updateChurch)
+    .delete(churchController.deleteChurch);
 
 // // contacts
 // router.route('/:code/contacts')
