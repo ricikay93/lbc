@@ -10,10 +10,10 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+// import { MyDatePickerModule } from 'mydatepicker';
 
 import { HomeComponent, CircuitsComponent, CircuitAddEditComponent } from './components/';
-import { LookUpService, CircuitService, PubSubService } from './services';
+import { LookUpService, CircuitService, PubSubService, ChurchService } from './services';
 import { ChurchCouncilComponent } from './components/church-council/church-council.component';
 import { ChurchDeaconComponent } from './components/church-deacon/church-deacon.component';
 import { ChurchGroupsComponent } from './components/church-groups/church-groups.component';
@@ -28,6 +28,11 @@ import { ChurchClassesComponent } from './components/church-classes/church-class
 import { VisitorAddEditComponent } from './components/visitor-add-edit/visitor-add-edit.component';
 import { ChurchItemComponent } from './components/church-item/church-item.component';
 import { ChurchAddEditComponent } from './components/church-add-edit/church-add-edit.component';
+
+import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +56,7 @@ import { ChurchAddEditComponent } from './components/church-add-edit/church-add-
     ChurchAddEditComponent
   ],
   imports: [
+    NgxMyDatePickerModule.forRoot(),
     BrowserModule,
     HttpModule,
     AppRoutingModule,
@@ -62,7 +68,8 @@ import { ChurchAddEditComponent } from './components/church-add-edit/church-add-
   providers: [
     LookUpService,
     CircuitService,
-    PubSubService
+    PubSubService,
+    ChurchService
   ],
   bootstrap: [AppComponent]
 })
