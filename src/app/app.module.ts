@@ -30,6 +30,9 @@ import { ChurchItemComponent } from './components/church-item/church-item.compon
 import { ChurchAddEditComponent } from './components/church-add-edit/church-add-edit.component';
 
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import { MembersComponent } from './components/members/members.component';
+import { MemberAddEditComponent } from './components/member-add-edit/member-add-edit.component';
+import { VisitorItemComponent } from './components/visitor-item/visitor-item.component';
 
 
 
@@ -53,7 +56,10 @@ import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
     ChurchClassesComponent,
     VisitorAddEditComponent,
     ChurchItemComponent,
-    ChurchAddEditComponent
+    ChurchAddEditComponent,
+    MembersComponent,
+    MemberAddEditComponent,
+    VisitorItemComponent
   ],
   imports: [
     NgxMyDatePickerModule.forRoot(),

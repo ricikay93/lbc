@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
 
+import { Component, OnInit, Renderer, OnDestroy } from '@angular/core';
+
+import {Church} from '../../models/';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { Subscription } from 'rxjs/Subscription';
+import {PubSubService, ChurchService } from '../../services/';
 @Component({
   selector: 'app-visitors',
   templateUrl: './visitors.component.html',
@@ -7,9 +13,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VisitorsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private renderer: Renderer,
+    private pubSubService: PubSubService,
+  ) { }
 
   ngOnInit() {
   }
 
+  addVisitor(): void {
+     this.router.navigate([ './main/visitors', { outlets: { 'task': ['add'] } }]);
+  }
 }

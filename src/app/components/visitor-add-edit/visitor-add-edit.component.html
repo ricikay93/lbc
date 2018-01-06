@@ -1,3 +1,128 @@
-<p>
-  visitor-add-edit works!
-</p>
+<div class="side-form">
+    <h2>{{title}}</h2>
+    <hr/>
+    <div class="form-container">
+        <form [formGroup]="visitorForm">
+            <div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div>Title</div>
+                            <select class="form-control" formControlName="personTitle">
+                          <option></option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <div>Full Name</div>
+                            <input type="text" class="form-control" formControlName="fullName">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>Address</div>
+                    <textarea class="form-control" formControlName="address"></textarea>
+                </div>
+                <div class="form-group">
+                    <div>Age Group</div>
+                    <select class="form-control" formControlName="ageGroup">
+                      <option></option>
+                    </select>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div>Telephone Number(s)</div>
+                            <input type="text" class="form-control" formControlName="telephone">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div>Email Address</div>
+                            <input type="email" class="form-control" formControlName="email">
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div>Invited By</div>
+                            <input type="text" class="form-control" formControlName="invitedBy">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div>Church Invited TO</div>
+                            <select class="form-control" formControlName="church">
+                              <option></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div>Date Attended</div>
+                            <div class="input-group">
+                                <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker formControlName="dateAttended" name="myDate" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" />
+
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div>Reason for Visiting</div>
+                            <select class="form-control" formControlName="reasonAttended">
+                                <option></option>
+                              </select>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="btn" (click)="cancelAction()">Cancel</button>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-success pull-right" type="submit">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <br/>
+    <div *ngIf="!isNew">
+        <div class="well well-lg" id="metadata">
+            <div class="row">
+                <div class="col-md-4">
+                    Created At:
+                </div>
+                <div class="col-md-8 date">{{createdAt | date:'MMMM dd, yyyy hh:mm'}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Last Modified:
+                </div>
+                <div class="col-md-8 date">{{lastModified | date:'MMMM dd, yyyy hh:mm'}}</div>
+            </div>
+        </div>
+    </div>
+</div>

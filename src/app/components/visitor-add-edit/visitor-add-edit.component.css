@@ -1,0 +1,59 @@
+.side-form {
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    height: 100%;
+    overflow: auto;
+    width: 40%;
+    background: #fff;
+    padding: 20px;
+    border-left: 1px solid #e0e0e0;
+}
+
+.dynamic_row {
+    margin-bottom: 5px;
+}
+
+
+/* #date-control div:first-child{
+    padding-right: 0px;
+}
+
+#date-control div:last-child{
+    
+} */
+
+.error {
+    color: red;
+}
+
+.tab-content {
+    padding: 10px;
+    height: 340px;
+}
+
+.hide {
+    display: none;
+}
+
+#date-control div:not(:first-child) {
+    padding-left: 5px;
+}
+
+#date-control div:not(:last-child) {
+    padding-right: 0px;
+}
+
+#metadata .row:first-child {
+    margin-bottom: 10px;
+}
+
+#metadata {
+    background-color: gray;
+    color: white;
+}
+
+.date {
+    font-style: italic;
+}
