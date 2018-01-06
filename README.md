@@ -1,5 +1,13 @@
 # LbcApp
 
+This project is Member Management System that was made for the Linstead/Buxton Town Circuit. It will store the information about the churches within the circuit including the member and church council. 
+
+The demo and phase 1 will be launched using SQLite as the backend database however, it will be migrated to a Heruko server with the SQLite database being used as an off line solution.
+
+This project will be/is implemented using Angular 4, Electron, Node JS, Sequelize, Express JS.
+
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.9.
 
 ## Development server
