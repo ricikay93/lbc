@@ -23,19 +23,22 @@
                             <div class="form-group">
                                 <label>Church Name</label>
                                 <input type="text" name="churchName" class="form-control" formControlName="church">
+                                <small class="error" *ngIf="churchForm.get('church').hasError('required')">
+                                        Church Name is required. 
+                                </small>
                             </div>
                             <div class="form-group ">
                                 <label class="control-label " for="nid-type ">Circuit </label>
                                 <select class="form-control" formControlName="circuit">
                                     <option value="0">Please Select</option>
-                                    <option *ngFor="let circuit of circuits" >{{ circuit.circuit }}</option>
+                                    <option *ngFor="let circuit of circuits" [ngValue]="circuit.id" >{{ circuit.circuit }}</option>
                                 </select>
                             </div>
 
                             <div class="row">
                                 <div class="col-sm-8 col-md-8">
                                     <div class="form-group ">
-                                        <label class="control-label " for="seat_quota "> Date Constituted <span class="required ">*</span></label>
+                                        <label class="control-label "> Date Constituted <span class="required ">*</span></label>
                                         <div class="input-group">
                                             <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker name="myDate" formControlName="dateConst" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" />
 
@@ -54,13 +57,16 @@
                                 <div class="col-sm-4 col-md-4">
                                     <div class="form-group ">
                                         <label class="control-label " for="seat_quota "> Seating Capacity <span class="required ">*</span></label>
-                                        <input type="number " class="form-control input-sm " id="seat_quota ">
+                                        <input type="number " class="form-control input-sm " id="seat_quota " formControlName="seatQuota">
+                                        <small class="error" *ngIf="churchForm.get('seatQuota').hasError('required')">
+                                                Seat Count is required. 
+                                        </small>
                                     </div>
                                 </div>
                                 <!-- / end col -->
                             </div>
                             <!-- worship times panel  -->
-                            <div class="panel">
+                            <!-- <div class="panel">
                                 <div class="panel-header">
                                     <span class="text-center">Worship Times</span>
                                 </div>
@@ -85,10 +91,9 @@
                                             </button>
                                             </span>
                                         </div> -->
-                                    </div>
+                            <!-- </div>
                                 </div>
-                            </div>
-                            <br/>
+                            </div> -->
                         </section>
                     </div>
                     <div class="tab-pane fade in " id="addressContact" [ngClass]="{'active show' : isSelected('#addressContact')}">
@@ -103,28 +108,35 @@
                                 <input type="text" class="form-control" />
                             </div>
 
-                            <div class="panel">
-                                <div class="panel-header">Contacts</div>
+                            <div class="panel panel-default">
+                                <div class="panel-header">
+                                    Contacts <button class="btn btn-success btn-add pull-right" type="button" (click)="addContact()">Add</button>
+                                </div>
                                 <div class="panel-body">
-                                    <div class="add-content">
-                                        <button class="btn btn-success btn-add" type="button" (click)="addContact()"></button>
-                                    </div>
-                                    <hr/>
-                                    <!-- <div class="content" style="height: 120px;overflow-y:auto">
-                                        <div formArrayName="contacts" *ngFor="let contactInfo of churchForm.get('contacts'); let i = index;">
-                                            <div [formGroupName]="i">
-                                                <input formControlName="contact" placeholder="Item name">
-
-                                                <div class="input-group">
-                                                    <input formControlName="contactType" placeholder="Item description"> <span class="input-group-btn">
-                                                        <button class="btn btn-danger btn-delete" type="button">
-                                                        <span class="fa fa-minus" (click)="deleteContact()"></span>
-                                                    </button>
-                                                    </span>
+                                    <div formArrayName="contacts">
+                                        <div *ngFor="let contact of contacts.controls;  let i = index;">
+                                            <div [formGroupName]="i" class="row dynamic_row">
+                                                <div class="col-md-5">
+                                                    <select class="form-control" formControlName="contactType">                                                       
+                                                        <option *ngFor="let type of contactTypes" [ngValue]="type.id">{{ type.contactType }}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="input-group">
+                                                        <input class="form-control" formControlName="contact" />
+                                                        <span class="input-group-btn">
+                                                        <button class="btn btn-danger btn-delete" role="button">
+                                                            <span class="fa fa-minus" (click)="deleteContact(i)"></span>
+                                                        </button>
+                                                        </span>
+                                                    </div>
+                                                    <!-- <small class="error" *ngIf="contacts.get(i).hasError('required')">
+                                                           Please enter contact information
+                                                    </small> -->
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> -->
+                                    </div>
                                 </div>
                             </div>
 
@@ -136,10 +148,26 @@
                             <div class="panel">
                                 <div class="panel-header">Church Missions</div>
                                 <div class="panel-body">
-                                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#exampleModal">Add Mission</button>
-                                </div>
-                                <div class="mission-content">
-
+                                    <div class="add-content">
+                                        <button class="btn btn-success btn-add btn-block" type="button" (click)="addMission()">Add</button>
+                                    </div>
+                                    <hr/>
+                                    <div class="mission-content" formArrayName="missions">
+                                        <div *ngFor="let mission of missions.controls;  let i = index;">
+                                            <div [formGroupName]="i" class="row dynamic_row">
+                                                <div class="col-md-12">
+                                                    <div class="input-group">
+                                                        <input class="form-control" formControlName="mission" />
+                                                        <span class="input-group-btn">
+                                                        <button class="btn btn-danger btn-delete">
+                                                            <span class="fa fa-minus" (click)="deleteMission(i)"></span>
+                                                        </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </section>
@@ -150,37 +178,11 @@
                     <section class="row text-right">
                         <button type="button " class="btn btn-primary" (click)="prevPage()" [ngClass]="{'hide': isFirstPage()}">Back</button>
                         <button type="button " class="btn btn-default" (click)="nextPage()" [ngClass]="{'hide': isLastPage()}">Continue</button>
-                        <button type="submit" (click)="saveChurch()" class="btn btn-default" [ngClass]="{'hide': !isLastPage()}">Save</button>
+                        <button type="submit" (click)="saveChurch()" [disabled]="churchForm.invalid" class="btn btn-default" [ngClass]="{'hide': !isLastPage()}">Save</button>
                         <button type="button " class="btn btn-default" (click)="cancelAction()">Cancel</button>
 
                     </section>
                 </div>
             </form>
-
-
         </div>
     </div>
-
-    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">ChurchMission</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="mission_text">Mission</label>
-                        <textarea class="form-control" name="mission_text"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" (click)="addMission()">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
-</div>

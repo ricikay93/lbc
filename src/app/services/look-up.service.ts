@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Parish, Month, Skill } from '../models/lookUp';
+import { ContactType } from '../models/index';
 
 @Injectable()
 export class LookUpService {
@@ -44,5 +45,17 @@ export class LookUpService {
   getParishByCode(code: string): Observable<Parish> {
     const url = this.churchUrl + 'parishes/' + code;
     return this.http.get(url).map(res => <Parish>res.json());
+  }
+
+  getContactTypeByChurch(): Observable<ContactType[]> {
+    const url = this.churchUrl + '/contactTypes/church';
+
+    return this.http.get(url).map(res => <ContactType[]>res.json());
+  }
+
+  getContactTypeByCode(id: number): Observable<ContactType> {
+    const url = this.churchUrl + '/contactTypes/' + id;
+
+    return this.http.get(url).map(res => <ContactType>res.json());
   }
 }

@@ -65,10 +65,11 @@ export class CircuitsComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.value) {
         this.circuitService.deleteCircuit(id).subscribe(
-          res => swal('Deleted!', res.message, 'success' )
+          res => {
+            swal('Deleted!', res.message, 'success' );
+            this.pubSubService.publish('circuits-updated');
+          }
         );
-
-        this.pubSubService.publish('circuits-updated');
       }
     });
 

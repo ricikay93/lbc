@@ -9,6 +9,8 @@ import { slideInOutAnimation } from '../../animations/slide-in-out.animation';
 
 import { LookUpService, PubSubService, CircuitService } from '../../services/';
 
+
+
 import $ from 'jquery';
 import swal from 'sweetalert2';
 
@@ -33,6 +35,7 @@ export class CircuitAddEditComponent implements OnInit {
   createdAt: Date;
 
 
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -47,7 +50,7 @@ export class CircuitAddEditComponent implements OnInit {
     this.createForm();
 
     const circuitID = Number(this.route.snapshot.params['id']);
-    console.log('ID' + circuitID);
+
     if (circuitID) {
       this.setCircuit(circuitID);
     } else {
@@ -71,7 +74,6 @@ export class CircuitAddEditComponent implements OnInit {
   private setCircuit(id: number): void {
 
     this.circuitService.getCircuitByCode(id).subscribe((circuit: Circuit) => {
-      console.log(circuit);
       this.lastModified = circuit.updatedAt;
       this.createdAt = circuit.createdAt;
       this.circuitForm.patchValue(circuit);
@@ -102,15 +104,12 @@ export class CircuitAddEditComponent implements OnInit {
   }
 
   cancelAction(): void {
+    console.log('circuit: ' + JSON.stringify(this.circuitForm.value));
     this.goBack();
   }
 
   private goBack(): void {
-    if (this.isNew) {
-      this.router.navigate(['../'], { relativeTo: this.route, queryParams: {} });
-    } else {
-      this.router.navigate(['../../'], { relativeTo: this.route, queryParams: {} });
-    }
+    this.router.navigate(['main/circuits'], { queryParams: {} });
   }
 
 }

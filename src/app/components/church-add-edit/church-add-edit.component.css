@@ -5,9 +5,14 @@
     right: 0;
     height: 100%;
     overflow: auto;
+    width: 40%;
     background: #fff;
     padding: 20px;
     border-left: 1px solid #e0e0e0;
+}
+
+.dynamic_row {
+    margin-bottom: 5px;
 }
 
 
@@ -19,9 +24,13 @@
     
 } */
 
+.error {
+    color: red;
+}
+
 .tab-content {
     padding: 10px;
-    height: 540px;
+    height: 340px;
 }
 
 .hide {

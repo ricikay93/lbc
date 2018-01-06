@@ -5,7 +5,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Parish, Message } from '../../models/';
+import { Parish, Message, ContactType } from '../../models/';
 import { Observable } from 'rxjs/Observable';
 import { slideInOutAnimation } from '../../animations/slide-in-out.animation';
 import { INgxMyDpOptions, IMyDateModel, IMyInputFieldChanged } from 'ngx-mydatepicker';
@@ -30,7 +30,11 @@ export class ChurchAddEditComponent implements OnInit {
   parishes: Parish[];
 
   circuits: Circuit[];
-  deletedContacts: number[];
+  contactTypes: ContactType[];
+  // contacts: any[] = [];
+
+
+  deletedContacts: any[];
 
   myOptions: INgxMyDpOptions = {
     dateFormat: 'mmm dd, yyyy',
@@ -79,45 +83,29 @@ export class ChurchAddEditComponent implements OnInit {
     this.isNew = true;
     this.getParishes();
     this.getCircuits();
-
+    this.getChurchContactTypes();
     this.createForm();
+    const contact = new ChurchContact();
+
+    contact.id = 34;
+    contact.church = 1;
+    contact.contactType = 1;
+    contact.contact = '567-4893';
+
   }
 
   private createForm(): void {
-    // this.churchForm = new FormGroup({
-    //   church: new FormControl('', Validators.required),
-    //   seatQuota: new FormControl('', [Validators.required, Validators.min(1)]),
-    //   circuit: new FormControl('', Validators.required),
-    //   street: new FormControl('', Validators.required),
-    //   town: new FormControl('', Validators.required),
-    //   parish: new FormControl('', Validators.required),
-    //   dateConst: new FormControl({ jsdate: new Date() }, Validators.required),
-    //  // contacts:  this.churchForm.
-    //   // this.churchForm.array([ this.createItem() ])
-    // });
-
     this.churchForm = this.fb.group({
       church: ['', Validators.required],
       seatQuota: ['', [Validators.required, Validators.min(1)]],
       circuit: ['', Validators.required],
       street: ['', Validators.required],
       town: ['', Validators.required],
-      // parish: ['', Validators.required],
       dateConst: ['', Validators.required],
-      contacts: this.fb.array([this.createContact()])
+      // worship: this.fb.array([]),
+      contacts: this.fb.array([]),
+      missions: this.fb.array([])
     });
-
-
-    // this.churchForm = this.fb.group({
-    //   name: ['', [Validators.required, Validators.minLength(2)]],
-    //   account: this.fb.group({
-    //     email: ['', Validators.required],
-    //     confirm: ['', Validators.required]
-    //   });
-  }
-
-  createContact(): FormGroup {
-    return this.fb.group(new ChurchContact());
   }
 
   saveChurch(): void {
@@ -143,29 +131,10 @@ export class ChurchAddEditComponent implements OnInit {
   }
 
   addMission(): void {
-
+    this.missions.push(this.createMission());
   }
 
-  deleteMission(missionDelete: ChurchMissions): void {
-
-  }
-
-  onDateChanged(event: IMyDateModel): void {
-    this.churchForm.get('dateConst').patchValue(new Date(event.jsdate));
-    // console.log('Date JSDATE :' + JSON.stringify(this.churchForm.get('dateConst').value) );
-  }
-
-  onInputFieldChanged(event: IMyInputFieldChanged) {
-    this.churchForm.get('dateConst').patchValue(new Date(event.value));
-  }
-
-  addContact(): void {
-    let items;
-    items = this.churchForm.get('contacts') as FormArray;
-    items.push(this.createContact());
-  }
-
-  deleteContact(id: number): void {
+  deleteMission(id: number): void {
     swal({
       title: 'Are you sure?',
       text: 'You wont be able to revert this!',
@@ -176,18 +145,99 @@ export class ChurchAddEditComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        let items;
+        // let items;
         let item;
 
-        items = this.churchForm.get('contacts') as FormArray;
-        item = items.splice(id, 1);
+        item = this.missions.controls.splice(id, 1);
 
-        this.deletedContacts.push(item.id);
+        // if (item.id) {
+        //   this.deletedContacts.push(item.id);
+        // }
+
+
+
         swal('Deleted!', 'Success!', 'success');
       }
     });
   }
 
+  // set Date
+  onDateChanged(event: IMyDateModel): void {
+    this.churchForm.get('dateConst').patchValue(new Date(event.jsdate));
+  }
+
+  onInputFieldChanged(event: IMyInputFieldChanged) {
+    this.churchForm.get('dateConst').patchValue(new Date(event.value));
+  }
+
+  // contacts setup
+  createContact(): FormGroup {
+    return this.fb.group({
+      contactType: ['', Validators.required],
+      contact: ['', Validators.required]
+    });
+
+  }
+
+  createMission(): FormGroup {
+    return this.fb.group({
+      mission: ['', Validators.required]
+    });
+
+  }
+
+  createWorship(): FormGroup {
+    return this.fb.group({
+      worship: ['', Validators.required]
+    });
+
+  }
+
+  get worships() {
+    return this.churchForm.get('worships') as FormArray;
+  }
+
+  get contacts() {
+    return this.churchForm.get('contacts') as FormArray;
+  }
+
+  get missions() {
+    return this.churchForm.get('missions') as FormArray;
+  }
+
+  addContact(): void {
+    this.contacts.push(this.createContact());
+  }
+
+  deleteContact(id: number): void {
+    alert('delete');
+    swal({
+      title: 'Are you sure?',
+      text: 'You wont be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        // let items;
+        let item;
+
+        item = this.contacts.controls.splice(id, 1);
+
+        if (item.id) {
+          this.deletedContacts.push(item.id);
+        }
+
+
+
+        swal('Deleted!', 'Success!', 'success');
+      }
+    });
+  }
+
+  // worship times
   addWorshipTime(): void {
 
   }
@@ -200,6 +250,10 @@ export class ChurchAddEditComponent implements OnInit {
     this.circuitService.getCircuits().subscribe(
       data => this.circuits = data
     );
+  }
+
+  getChurchContactTypes() {
+    this.lookUpService.getContactTypeByChurch().subscribe(data => this.contactTypes = data);
   }
 
   // getDays() {
@@ -231,7 +285,7 @@ export class ChurchAddEditComponent implements OnInit {
   }
 
 
-  // tabs
+  // wizards
 
   isSelected(tab_id: string | number): boolean {
     if (typeof tab_id === 'number') {
@@ -284,6 +338,7 @@ export class ChurchAddEditComponent implements OnInit {
     }
   }
 
+  // cancel
   cancelAction(): void {
 
     swal({

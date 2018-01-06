@@ -19,7 +19,7 @@ export class ChurchWorshipTime {
 export class ChurchContact {
     id: number;
     church: number;
-    contact_type: number;
+    contactType: number;
     contact: string;
     lastModified: Date;
     createdAt: Date;

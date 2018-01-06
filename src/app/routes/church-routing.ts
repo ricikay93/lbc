@@ -14,6 +14,8 @@ import { ChurchClassesComponent } from '../components/church-classes/church-clas
 import { ChurchPositionsComponent } from '../components/church-positions/church-positions.component';
 import { ChurchItemComponent } from '../components/church-item/church-item.component';
 import { ChurchAddEditComponent } from '../components/church-add-edit/church-add-edit.component';
+import { VisitorAddEditComponent } from '../components/visitor-add-edit/visitor-add-edit.component';
+import { VisitorItemComponent } from '../components/visitor-item/visitor-item.component';
 
 const circuitChildrenRoutes: Routes = [
     { path: 'add', component: CircuitAddEditComponent },
@@ -39,6 +41,11 @@ const groupChildrenRoutes: Routes = [
     { path: 'positions', component: ChurchPositionsComponent }
 ];
 
+const visitorChildrenRoutes: Routes = [
+    { path: 'add', component: VisitorAddEditComponent, outlet: 'task' },
+    { path: 'edit/:id', component:  VisitorAddEditComponent, outlet: 'task' },
+    { path: 'view/:id', component: VisitorItemComponent}
+];
 
 export const menuRoutes: Routes = [
     { path: '', redirectTo: 'churches', pathMatch: 'full' },
@@ -49,5 +56,5 @@ export const menuRoutes: Routes = [
     //     { path: 'dashboard', component: DashboardComponent },
     //     { path: 'council', component: CouncilComponent, children: councilChildren },
     //     { path: 'members', component: MembersComponent, children: memberChildren },
-    { path: 'visitors', component: VisitorsComponent }
+    { path: 'visitors', component: VisitorsComponent, children: visitorChildrenRoutes }
 ];

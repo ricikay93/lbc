@@ -6,7 +6,9 @@
             <div class="form-group">
                 <label for="circuitName">Circuit</label>
                 <input type="text" class="form-control" formControlName="circuit" />
-                <!-- <div *ngIf="circuitForm.get('circuit')"> Name is too short. </div>  -->
+                <div class="error" *ngIf="circuitForm.get('circuit').hasError('required')">
+                    Circuit Name is required
+                </div>
             </div>
             <div class="form-group">
                 <label for="parish">Associated Parish</label>
@@ -14,6 +16,9 @@
                     <option value="">Please Select</option>
                     <option *ngFor="let parish of parishes" [ngValue]="parish.code">{{parish.parish }}</option>
                 </select>
+                <div class="error" *ngIf="circuitForm.get('parishCode').hasError('required')">
+                    Associated Parish is required
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -24,6 +29,7 @@
                 </div>
             </div>
         </form>
+        <br/>
         <div *ngIf="!isNew">
             <div class="well well-lg" id="metadata">
                 <div class="row">
