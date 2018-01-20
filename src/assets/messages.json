@@ -1,0 +1,25 @@
+{
+    "circuit": [{
+        "description": {
+            "required": "Circuit is <strong>required</strong>."
+        },
+        "parishCode": {
+            "required": "Associated Parish is <strong>required</strong>."
+        }
+    }],
+    "visitor": [{
+        "personTitle": {
+            "required": "Title is <strong>required</strong>."
+        },
+        "fullName": {
+            "required": "Full Name is <strong>required</strong>."
+        },
+        "church": {
+            "required": "Church is <strong>required</strong>."
+        },
+        "dateAttended": {
+            "required": "Date Attended is <strong>required</strong>."
+        }
+    }]
+
+}

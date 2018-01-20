@@ -2,22 +2,30 @@
     <h2>{{title}}</h2>
     <hr/>
     <div class="form-container">
-        <form [formGroup]="circuitForm" (ngSubmit)="saveCircuit()">
-            <div class="form-group">
-                <label for="circuitName">Circuit</label>
-                <input type="text" class="form-control" formControlName="circuit" />
-                <div class="error" *ngIf="circuitForm.get('circuit').hasError('required')">
-                    Circuit Name is required
+        <form [formGroup]="circuitForm" (ngSubmit)="saveCircuit(circuitForm)">
+            <div class="form-group has-feedback" [ngClass]="{
+                'has-error': circuitForm.get('description').invalid,
+                'has-success': circuitForm.get('description').valid}">
+                <label class="control-label" for="description">Circuit</label>
+                <div>
+                    <input type="text" class="form-control" formControlName="description" />
+                    <span class="glyphicon glyphicon-ok form-control-feedback" style="top:24px !important;" [ngClass]="{
+                        'glyphicon-warning-sign': circuitForm.get('description').invalid,
+                        'glyphicon-ok': circuitForm.get('description').valid
+                    }"></span>
+                </div>
+                <div *ngIf="formErrors.description" class="small text-danger formErrors " [innerHTML]="formErrors.description">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group has-feedback" [ngClass]="{
+                'has-error': circuitForm.get('parishCode').invalid,
+                'has-success': circuitForm.get('parishCode').valid}">
                 <label for="parish">Associated Parish</label>
                 <select class="form-control" formControlName="parishCode">
                     <option value="">Please Select</option>
                     <option *ngFor="let parish of parishes" [ngValue]="parish.code">{{parish.parish }}</option>
                 </select>
-                <div class="error" *ngIf="circuitForm.get('parishCode').hasError('required')">
-                    Associated Parish is required
+                <div *ngIf="formErrors.parishCode" class="small text-danger formErrors" [innerHTML]="formErrors.parishCode">
                 </div>
             </div>
             <div class="row">
@@ -25,7 +33,7 @@
                     <button class="btn" (click)="cancelAction()">Cancel</button>
                 </div>
                 <div class="col-md-6">
-                    <button class="btn btn-success pull-right" type="submit">Save</button>
+                    <button class="btn btn-success pull-right" type="submit" [disabled]="circuitForm.pristine">Save</button>
                 </div>
             </div>
         </form>

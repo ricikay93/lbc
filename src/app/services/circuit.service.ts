@@ -52,4 +52,14 @@ console.log(url);
   }
 
 
+  getErrorMessages(form): Observable<any> {
+    return this.http.get('../../assets/messages.json')
+    .map((res: any) => {
+      const items = res.json();
+
+      return items[form];
+    });
+  }
+
+
 }
