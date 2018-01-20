@@ -32,6 +32,17 @@
     <!-- /.container-fluid -->
 </nav>
 
-<div class="container">
-    <router-outlet></router-outlet>
+<div class="content">
+    <div class="sidenav">
+
+        <a routerLink="/main/circuits" routerLinkActive="active">Circuits</a>
+        <a>Members</a>
+        <a routerLink="/main/circuit/churches" routerLinkActive="active">Churches</a>
+        <a routerLink="/main/visitors" routerLinkActive="active">Visitor</a>
+        <a routerLink="/main/groups" routerLinkActive="active">Church & Circuit Groups</a>
+        <a routerLink="/main/council" routerLinkActive="active">Church & Circuit Council</a>
+    </div>
+    <div class="main">
+        <router-outlet></router-outlet>
+    </div>
 </div>
