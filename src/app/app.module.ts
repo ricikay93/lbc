@@ -13,7 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { MyDatePickerModule } from 'mydatepicker';
 
 import { HomeComponent, CircuitsComponent, CircuitAddEditComponent } from './components/';
-import { LookUpService, CircuitService, PubSubService, ChurchService } from './services';
+import { LookUpService, CircuitService, PubSubService, ChurchService, VisitorService } from './services';
 import { ChurchCouncilComponent } from './components/church-council/church-council.component';
 import { ChurchDeaconComponent } from './components/church-deacon/church-deacon.component';
 import { ChurchGroupsComponent } from './components/church-groups/church-groups.component';
@@ -75,7 +75,8 @@ import { VisitorItemComponent } from './components/visitor-item/visitor-item.com
     LookUpService,
     CircuitService,
     PubSubService,
-    ChurchService
+    ChurchService,
+    VisitorService
   ],
   bootstrap: [AppComponent]
 })

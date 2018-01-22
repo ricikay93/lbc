@@ -6,9 +6,12 @@ import { INgxMyDpOptions, IMyDateModel, IMyInputFieldChanged } from 'ngx-mydatep
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
+import { Visitor, Message } from '../../models/';
 
-import { LookUpService, PubSubService, CircuitService } from '../../services/';
+import { Subscription } from 'rxjs/Subscription';
 
+import { LookUpService, PubSubService, VisitorService, ChurchService } from '../../services/';
+import { AbstractControl } from '@angular/forms/src/model';
 
 import * as $ from 'jquery';
 import swal from 'sweetalert2';
@@ -21,15 +24,27 @@ import swal from 'sweetalert2';
   host: { '[@slideInOutAnimation]': '' }
 })
 export class VisitorAddEditComponent implements OnInit {
-  title = 'Add Circuit';
+  title = 'Add Visitor';
   errorMsg = '';
   isNew: boolean;
 
   lastModified: Date;
   createdAt: Date;
 
+  formChangeSub: Subscription;
+  titles: any;
+
+  formErrors = {
+    personTitle: '',
+    fullName: '',
+    // church: '',
+    dateAttended: '',
+    contacts: ''
+  };
+
   visitorForm: FormGroup;
-  
+
+
   myOptions: INgxMyDpOptions = {
     dateFormat: 'mmm dd, yyyy',
     sunHighlight: true,
@@ -42,13 +57,14 @@ export class VisitorAddEditComponent implements OnInit {
     private router: Router,
     private lookUpService: LookUpService,
     private pubSubService: PubSubService,
+    private churchService: ChurchService,
+    private visitorService: VisitorService,
     private fb: FormBuilder
   ) { }
 
   ngOnInit() {
-    // this.getParishes();
-
     this.setVisitorForm();
+    this.getTitles();
     const circuitID = Number(this.route.snapshot.params['id']);
 
     if (circuitID) {
@@ -56,70 +72,196 @@ export class VisitorAddEditComponent implements OnInit {
     } else {
       this.isNew = true;
     }
+
+    this.onValueChanged();
   }
   private setVisitorForm(): void {
     this.visitorForm = this.fb.group({
       personTitle: ['', Validators.required],
       fullName: ['', Validators.required],
       address: [''],
-      circuit: ['', Validators.required],
       ageGroup: [''],
-      telephone: [''],
-      email: ['', [Validators.email]],
+      contacts: this.fb.array([]),
+      email: [''],
       invitedBy: [''],
-      church: ['', Validators.required],
-      dateAttended: [''],
+      church: [''],
+      // church: ['', Validators.required],
+      dateAttended: ['', Validators.required],
       reasonAttended: ['']
     });
+
+    this.formChangeSub = this.visitorForm.valueChanges.subscribe(data => this.onValueChanged());
+  }
+
+  addContact(): void {
+
+    this.contacts.push(this.createContact());
+    console.log('contacts errors: ' + this.contacts.errors);
+    // const cont = this.visitorForm.get('contacts') as FormGroup;
+
+
+    // if (this.isContactLessThanMax && this.contacts.errors === null) {
+    // } else {
+    //   console.log('ErrList');
+    //   // const errList = [];
+
+    //   // if (!this.isContactLessThanMax) {
+    //   //   errList.push('max');
+    //   // } else if (this.contacts.errors !== null) {
+    //   //   errList.push('required');
+    //   // }
+
+    //   // this.setErrMsg(errList, this.formErrors, 'contacts');
+    // }
+
+  }
+
+  get isContactLessThanMax() {
+    return this.contactCount < 10;
+  }
+
+
+  deleteContact(id: number): void {
+    this.contacts.removeAt(id);
+  }
+
+  createContact(): FormGroup {
+    return this.fb.group({
+      tele: ['', Validators.required]
+    });
+
+  }
+
+  get contacts() {
+    return this.visitorForm.get('contacts') as FormArray;
+  }
+
+  get contactCount() {
+    return this.contacts.controls.length;
+  }
+
+  private getTitles(): void {
+    this.titles = this.visitorService.getTitles();
   }
 
   private setVisitor(id: number): void {
+    //  this.visitorService.getVisitorByCode
+    this.visitorService.getVisitorByCode(id).subscribe((visitor: Visitor) => {
+      this.lastModified = visitor.lastModified;
+      this.createdAt = visitor.createdAt;
+      this.visitorForm.patchValue(visitor);
 
-    // this.circuitService.getCircuitByCode(id).subscribe((circuit: Circuit) => {
-    //   this.lastModified = circuit.updatedAt;
-    //   this.createdAt = circuit.createdAt;
-    //   this.circuitForm.patchValue(circuit);
-    // });
+      // create list from
+      const teles = visitor.telephone.split(',');
+      // let teleForm =  this.visitorForm.get('telephone').;
 
-    this.title = 'Edit Circuit';
+      const telesJSON = teles.forEach(element => {
+        return {
+          contact: element
+        };
+      });
+
+      this.visitorForm.get('telephones').patchValue(telesJSON);
+
+    });
+
+    this.title = 'Edit Visitor';
     this.isNew = false;
   }
 
-  saveChurch(): void {
-    // const circuitID = Number(this.route.snapshot.params['id']);
 
-    // if (circuitID) {
-    //   this.circuitService.updateCircuit(this.circuitForm.value, circuitID).subscribe(
-    //     result => { alert('Message: ' + result.message); this.pubSubService.publish('circuits-updated'); }
-    //   );
-    // } else {
+  saveVisitor(form: FormGroup): void {
+    if (form.valid) {
+      const circuitID = Number(this.route.snapshot.params['id']);
 
-    //   this.circuitService.saveCircuit(this.circuitForm.value).subscribe(
-    //     result => { alert('Message: ' + result.message); this.pubSubService.publish('circuits-updated'); }
-    //   );
+      if (circuitID) {
+        this.visitorService.updateVisitor(this.visitorForm.value, circuitID).subscribe(
+          result => { alert('Message: ' + result.message); this.pubSubService.publish('visitors-updated'); }
+        );
+      } else {
 
-    // }
+        // this.visitorService.saveVisitor(this.visitorForm.value).subscribe(
+        //   result => { alert('Message: ' + result.message); this.pubSubService.publish('visitors-updated'); }
+        // );
 
-    // redirect to users view
-    this.goBack();
+        console.log('form ' + form);
 
+      }
+
+      // redirect to users view
+      this.goBack();
+    }
+
+
+  }
+
+  private setErrMsgs(control: AbstractControl, errorsObj: any, field: string) {
+    if (this.shouldShowErrors(control) || this.visitorForm.dirty) {
+      this.visitorService.getErrorMessages('visitor').subscribe(result => {
+        const messages = result[0];
+        for (const key in control.errors) {
+
+          if (control.errors.hasOwnProperty(key)) {
+            errorsObj[field] += messages[field][key] + '<br/>';
+          }
+        }
+      });
+    }
+  }
+
+  private setErrMsg(errors: any[], errorsObj: any, field: string) {
+    this.visitorService.getErrorMessages('visitor').subscribe(result => {
+      const messages = result[0];
+
+      for (const key in errors) {
+        if (key in errors) {
+          errorsObj[field] += messages[field][key] + '<br/>';
+        }
+      }
+    });
+  }
+
+
+  private shouldShowErrors(control: AbstractControl): boolean {
+    if (control && control.errors) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  private onValueChanged(): void {
+    if (!this.visitorForm) { return; }
+
+    for (const field in this.formErrors) {
+      if (this.formErrors.hasOwnProperty(field)) {
+        if (field !== 'contacts') {
+          this.formErrors[field] = '';
+          this.setErrMsgs(this.visitorForm.get(field), this.formErrors, field);
+        }
+
+      }
+    }
   }
 
   onDateChanged(event: IMyDateModel): void {
-    // this.churchForm.get('dateConst').patchValue(new Date(event.jsdate));
+    this.visitorForm.get('dateAttended').patchValue(new Date(event.jsdate));
   }
 
   onInputFieldChanged(event: IMyInputFieldChanged) {
-    // this.churchForm.get('dateConst').patchValue(new Date(event.value));
+    this.visitorForm.get('dateAttended').patchValue(new Date(event.value));
   }
 
   cancelAction(): void {
-    // console.log('circuit: ' + JSON.stringify(this.circuitForm.value));
+
     this.goBack();
   }
 
   private goBack(): void {
-    this.router.navigate(['main/circuits'], { queryParams: {} });
+    this.router.navigate(['main/visitors'], { queryParams: {} });
   }
+
+
 
 }

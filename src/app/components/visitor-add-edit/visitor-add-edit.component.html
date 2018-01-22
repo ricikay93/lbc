@@ -2,127 +2,186 @@
     <h2>{{title}}</h2>
     <hr/>
     <div class="form-container">
+        <div class="alert alert-danger">
+            <p class="text-danger" *ngIf="invalid">Errors exist in form. Please review before saving.</p>
+        </div>
         <form [formGroup]="visitorForm">
-            <div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <div>Title</div>
-                            <select class="form-control" formControlName="personTitle">
-                          <option></option>
-                        </select>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <div>Full Name</div>
-                            <input type="text" class="form-control" formControlName="fullName">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group has-feedback" [ngClass]="{
+                                    'has-error': visitorForm.get('personTitle').invalid,
+                                    'has-success': visitorForm.get('personTitle').valid}">
+                        <label class="control-label" for="personTitle">Title</label>
+                        <select class="form-control" formControlName="personTitle" id="personTitle">
+                                        <option *ngFor="let title of titles" [ngValue]="title.title" >{{ title.title }}</option>
+                            </select>
+                        <div *ngIf="formErrors.personTitle" class="small text-danger formErrors " [innerHTML]="formErrors.personTitle">
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div>Address</div>
-                    <textarea class="form-control" formControlName="address"></textarea>
+
+
+                <div class="col-md-7">
+                    <div class="form-group has-feedback" [ngClass]="{
+                                    'has-error': visitorForm.get('fullName').invalid,
+                                    'has-success': visitorForm.get('fullName').valid}">
+                        <label class="control-label" for="fullName">Full Name</label>
+                        <div>
+                            <input type="text" class="form-control" formControlName="fullName" />
+                            <span class="glyphicon glyphicon-ok form-control-feedback" style="top:24px !important;" [ngClass]="{
+                                            'glyphicon-warning-sign': visitorForm.get('fullName').invalid,
+                                            'glyphicon-ok': visitorForm.get('fullName').valid
+                                        }"></span>
+                        </div>
+                        <div *ngIf="formErrors.fullName" class="small text-danger formErrors " [innerHTML]="formErrors.fullName">
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <div>Age Group</div>
-                    <select class="form-control" formControlName="ageGroup">
+            </div>
+            <!-- title and full name end -->
+            <div class="form-group">
+                <div>Address</div>
+                <textarea class="form-control" formControlName="address"></textarea>
+            </div>
+            <!-- address end -->
+            <div class="form-group">
+                <div>Age Group</div>
+                <select class="form-control" formControlName="ageGroup">
                       <option></option>
                     </select>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <div>Telephone Number(s)</div>
-                            <input type="text" class="form-control" formControlName="telephone">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <div>Email Address</div>
-                            <input type="email" class="form-control" formControlName="email">
-                        </div>
+            </div>
+            <!-- age group end -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div>Invited By</div>
+                        <input type="text" class="form-control" formControlName="invitedBy">
                     </div>
                 </div>
-
-
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <div>Invited By</div>
-                            <input type="text" class="form-control" formControlName="invitedBy">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <div>Church Invited TO</div>
-                            <select class="form-control" formControlName="church">
-                              <option></option>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div>Church</div>
+                        <select class="form-control" formControlName="church">
+                                <option></option>
                             </select>
+                    </div>
+                    <!-- <div class="col-md-6">
+                        <div class="form-group has-feedback" [ngClass]="{
+                                'has-error': visitorForm.get('church').invalid,
+                                'has-success': visitorForm.get('church').valid}">
+                            <label class="control-label" for="church">Church Invited To</label>
+                            <select class="form-control" formControlName="church">
+                                    <option></option>
+                                  </select>
+                            <div *ngIf="formErrors.church" class="small text-danger formErrors " [innerHTML]="formErrors.church">
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <!-- invited by and church invited to -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group has-feedback" [ngClass]="{
+                                'has-error': visitorForm.get('dateAttended').invalid,
+                                'has-success': visitorForm.get('dateAttended').valid}">
+                        <label class="control-label" for="dateAttended">Date Attended</label>
+                        <div class="input-group">
+                            <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker formControlName="dateAttended" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" />
+
+                            <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                    </span>
+                        </div>
+                        <div *ngIf="formErrors.dateAttended" class="small text-danger formErrors " [innerHTML]="formErrors.dateAttended">
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div>Reason for Visiting</div>
+                        <select class="form-control" formControlName="reasonAttended">
+                                <option></option>
+                              </select>
+                    </div>
+                </div>
+            </div>
+            <!-- date attended and reason end-->
+            <div class="form-group">
+                <div>Email Address</div>
+                <input type="email" class="form-control" formControlName="email">
+            </div>
+            <!-- email address end -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-8">Contacts</div>
+                        <div class="col-md-4 text-right">
+                            <button class="btn" (click)="addContact()" [ngClass]="{hide: !isContactLessThanMax}">Add Contact</button>
                         </div>
                     </div>
                 </div>
+                <div class="panel-body" style="height:190px; ">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <small>Contacts Added: {{ contactCount }}</small>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <small>Max Contacts: 10 </small>
+                        </div>
+                    </div>
+                    <div *ngIf="formErrors.contacts" class="alert alert-danger small text-danger formErrors " [innerHTML]="formErrors.contacts">
+                    </div>
+                    <div formArrayName="contacts" style="overflow-y:auto;height:150px;">
+                        <div *ngFor="let contact of contacts.controls;  let i = index;">
+                            <div [formGroupName]="i" class="row dynamic_row">
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <div>Date Attended</div>
-                            <div class="input-group">
-                                <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker formControlName="dateAttended" name="myDate" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" />
-
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" (click)="dp.clearDate()">
-                                        <i class="glyphicon glyphicon-remove"></i>
+                                <div class="input-group">
+                                    <input class="form-control" formControlName="tele" />
+                                    <span class="input-group-btn">
+                                                            <button class="btn btn-danger btn-delete" role="button">
+                                                                <span class="fa fa-minus" (click)="deleteContact(i)"></span>
                                     </button>
-                                    <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
-                                        <i class="glyphicon glyphicon-calendar"></i>
-                                    </button>
-                                </span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <div>Reason for Visiting</div>
-                            <select class="form-control" formControlName="reasonAttended">
-                                <option></option>
-                              </select>
-                        </div>
-                    </div>
                 </div>
-
-
-
-
             </div>
+            <!-- contact and email -->
             <div class="row">
                 <div class="col-md-6">
                     <button class="btn" (click)="cancelAction()">Cancel</button>
                 </div>
                 <div class="col-md-6">
-                    <button class="btn btn-success pull-right" type="submit">Save</button>
+                    <button class="btn btn-success pull-right" type="submit" [disabled]="visitorForm.pristine">Save</button>
+                </div>
+            </div>
+            <br/>
+            <div *ngIf="!isNew">
+                <div class="well well-lg" id="metadata">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Created At:
+                        </div>
+                        <div class="col-md-8 date">{{createdAt | date:'MMMM dd, yyyy hh:mm'}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            Last Modified:
+                        </div>
+                        <div class="col-md-8 date">{{lastModified | date:'MMMM dd, yyyy hh:mm'}}</div>
+                    </div>
                 </div>
             </div>
         </form>
-    </div>
-
-    <br/>
-    <div *ngIf="!isNew">
-        <div class="well well-lg" id="metadata">
-            <div class="row">
-                <div class="col-md-4">
-                    Created At:
-                </div>
-                <div class="col-md-8 date">{{createdAt | date:'MMMM dd, yyyy hh:mm'}}</div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    Last Modified:
-                </div>
-                <div class="col-md-8 date">{{lastModified | date:'MMMM dd, yyyy hh:mm'}}</div>
-            </div>
-        </div>
     </div>
 </div>

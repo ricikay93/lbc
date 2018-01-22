@@ -52,7 +52,7 @@ export const menuRoutes: Routes = [
     { path: 'circuits', component: CircuitsComponent, children: circuitChildrenRoutes },
     { path: 'circuit/churches', component: ChurchesComponent, children: churchChildrenRoutes },
     { path: 'council', component: CouncilComponent, children: councilChildrenRoutes },
-    { path: 'group', component: GroupsComponent, children: groupChildrenRoutes },
+    { path: 'groups', component: GroupsComponent, children: groupChildrenRoutes },
     //     { path: 'dashboard', component: DashboardComponent },
     //     { path: 'council', component: CouncilComponent, children: councilChildren },
     //     { path: 'members', component: MembersComponent, children: memberChildren },

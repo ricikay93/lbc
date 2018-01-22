@@ -53,7 +53,7 @@ var delete_visitor = function(req, res) {
 var get_visitor = function(req, res) {
     Visitor.find({
         where: {
-            id = req.params.code
+            id: req.params.code
         }
     }).then(function(result) {
         res.json(result);
@@ -65,7 +65,7 @@ var get_visitor = function(req, res) {
 var get_church_visitors = function(req, res) {
     Visitor.findAll({
         where: {
-            church_id = req.params.church
+            church_id: req.params.church
         }
     }).then(function(result) {
         res.json(result);
@@ -85,9 +85,9 @@ var get_all_visitors = function(req, res) {
 
 module.exports = {
     getAllVisitors: get_all_visitors,
-    getVisitorByCode: get_a_visitor,
-    addVisitor: add_a_visitor,
-    updateVisitor: edit_a_visitor,
+    getVisitorByCode: get_visitor,
+    addVisitor: add_visitor,
+    updateVisitor: edit_visitor,
     deleteVisitor: delete_visitor,
     getChurchVisitors: get_church_visitors
 }

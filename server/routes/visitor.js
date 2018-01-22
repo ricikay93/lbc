@@ -6,7 +6,7 @@ let visitorController = require('../controllers/visitor_controller');
 // churches
 router.route('/')
     .get(visitorController.getAllVisitors)
-    .post(visitorController.addChurch);
+    .post(visitorController.addVisitor);
 
 router.route('/:code')
     .get(visitorController.getVisitorByCode)
@@ -14,4 +14,6 @@ router.route('/:code')
     .delete(visitorController.deleteVisitor);
 
 router.route('/:church')
-    .get(visitorController.getChurchVisitors)
+    .get(visitorController.getChurchVisitors);
+
+module.exports = router;

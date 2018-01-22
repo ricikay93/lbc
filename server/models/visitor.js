@@ -44,7 +44,7 @@ var Visitor = sequelize_conn.define('churchVisitor', {
 
 // visitor-church relationship
 Visitor.belongsTo(Church, { foreignKey: 'church_id' });
-Church.hasMany(Visitor, { as: 'Vistors', onDelete: 'CASCADE' });
+Church.hasMany(Visitor, { as: 'Vistors', onDelete: 'CASCADE', foreignKey: 'church_id' });
 
 module.exports = {
     Visitor: Visitor

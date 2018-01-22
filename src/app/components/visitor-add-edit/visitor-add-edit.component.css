@@ -57,3 +57,12 @@
 .date {
     font-style: italic;
 }
+
+.dynamic_row {
+    padding-left: 23px;
+    padding-right: 23px;
+}
+
+.hide {
+    display: none;
+}
