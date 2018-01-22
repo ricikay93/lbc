@@ -25,7 +25,7 @@ import swal from 'sweetalert2';
 })
 export class VisitorAddEditComponent implements OnInit {
   title = 'Add Visitor';
-  errorMsg = '';
+  invalid:boolean;
   isNew: boolean;
 
   lastModified: Date;
@@ -66,7 +66,7 @@ export class VisitorAddEditComponent implements OnInit {
     this.setVisitorForm();
     this.getTitles();
     const circuitID = Number(this.route.snapshot.params['id']);
-
+ this.invalid = false;
     if (circuitID) {
       this.setVisitor(circuitID);
     } else {
@@ -180,9 +180,9 @@ export class VisitorAddEditComponent implements OnInit {
         );
       } else {
 
-        // this.visitorService.saveVisitor(this.visitorForm.value).subscribe(
-        //   result => { alert('Message: ' + result.message); this.pubSubService.publish('visitors-updated'); }
-        // );
+        this.visitorService.saveVisitor(this.visitorForm.value).subscribe(
+          result => { alert('Message: ' + result.message); this.pubSubService.publish('visitors-updated'); }
+        );
 
         console.log('form ' + form);
 
@@ -190,6 +190,8 @@ export class VisitorAddEditComponent implements OnInit {
 
       // redirect to users view
       this.goBack();
+    }else{
+      this.invalid = true;
     }
 
 
