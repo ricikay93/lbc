@@ -19,6 +19,24 @@
         },
         "dateAttended": {
             "required": "Date Attended is <strong>required</strong>."
+        },
+        "contacts": {
+            "required": "Date Attended is <strong>required</strong>.",
+            "max": "The maximum contacts should not exceed 10."
+        }
+    }],
+    "church": [{
+        "description": {
+            "required": "Description is <strong>required</strong>."
+        },
+        "fullName": {
+            "required": "Full Name is <strong>required</strong>."
+        },
+        "church": {
+            "required": "Church is <strong>required</strong>."
+        },
+        "dateAttended": {
+            "required": "Date Attended is <strong>required</strong>."
         }
     }]
 
