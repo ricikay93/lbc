@@ -25,7 +25,7 @@ import swal from 'sweetalert2';
 })
 export class VisitorAddEditComponent implements OnInit {
   title = 'Add Visitor';
-  invalid:boolean;
+  invalid: boolean;
   isNew: boolean;
 
   lastModified: Date;
@@ -66,7 +66,7 @@ export class VisitorAddEditComponent implements OnInit {
     this.setVisitorForm();
     this.getTitles();
     const circuitID = Number(this.route.snapshot.params['id']);
- this.invalid = false;
+    this.invalid = false;
     if (circuitID) {
       this.setVisitor(circuitID);
     } else {
@@ -190,7 +190,7 @@ export class VisitorAddEditComponent implements OnInit {
 
       // redirect to users view
       this.goBack();
-    }else{
+    } else {
       this.invalid = true;
     }
 
@@ -223,6 +223,15 @@ export class VisitorAddEditComponent implements OnInit {
     });
   }
 
+  private isInvalid(): void {
+
+
+    if (this.visitorForm.invalid) {
+      this.invalid = true;
+    }
+
+
+  }
 
   private shouldShowErrors(control: AbstractControl): boolean {
     if (control && control.errors) {
@@ -245,6 +254,9 @@ export class VisitorAddEditComponent implements OnInit {
 
       }
     }
+
+    this.isInvalid();
+
   }
 
   onDateChanged(event: IMyDateModel): void {
