@@ -6,15 +6,19 @@ var db_config = require('./server/db');
 let sequelize_conn = db_config.sequelize;
 
 let lookUp = require('./server/models/lookUp');
-let Parish = lookUp.Parish;
-let ContactType = lookUp.ContactType;
-let Month = lookUp.Month;
-let Profession = lookUp.Profession;
-let Skill = lookUp.Skill;
+// let Parish = lookUp.Parish;
+// let ContactType = lookUp.ContactType;
+// let Month = lookUp.Month;
+// let Profession = lookUp.Profession;
+// let Skill = lookUp.Skill;
 
 
-let circuit = require('./server/models/circuit');
-let church = require('./server/models/church');
+// let circuit = require('./server/models/circuit');
+// let church = require('./server/models/church');
+let member = require('./server/models/member');
+let visitor = require('./server/models/visitor');
+let Visitor = visitor.Visitor;
+let Member = member.Member;
 // parishes
 // sequelize_conn.sync().then(function() {
 //     Parish.create({
