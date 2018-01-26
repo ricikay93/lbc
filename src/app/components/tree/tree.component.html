@@ -1,0 +1,24 @@
+<div class="treeview">
+    <ul>
+        <li *ngFor="let node of parents" class="tree-branch">
+            <a (click)="toggleItem(node.title, $event)">
+                <i class='tree-indicator glyphicon glyphicon-chevron-right'></i>
+                <span class="heading">
+                    {{node.title}}
+                </span>
+            </a>
+            <ul *ngIf="node.children?.length === 0">
+                <li>No Content Availiable</li>
+            </ul>
+            <ul *ngFor="let child of node.children">
+                <li>
+                    <a>
+                        <span class="heading">
+                            {{node.title}}
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

@@ -12,18 +12,30 @@ import {PubSubService, ChurchService } from '../../services/';
   styleUrls: ['./visitors.component.css']
 })
 export class VisitorsComponent implements OnInit {
+parents: any[];
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private renderer: Renderer,
     private pubSubService: PubSubService,
-  ) { }
+  ) {
+    this.parents =
+    [
+      {'title': 'Node 1',
+        'children': []
+      }
+    ];
+  }
 
   ngOnInit() {
   }
 
   addVisitor(): void {
      this.router.navigate([ './main/visitors', { outlets: { 'task': ['add'] } }]);
+  }
+
+  loadChildren(message:string):void {
+    alert(message);
   }
 }
