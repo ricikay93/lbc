@@ -5,13 +5,13 @@
         <div class="alert alert-danger" *ngIf="invalid">
             <p class="text-danger">Please complete required fields before trying to save.</p>
         </div>
-        <form [formGroup]="visitorForm">
+        <form [formGroup]="visitorForm" (ngSubmit)="saveVisitor()">
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group has-feedback" [ngClass]="{
                                     'has-error': visitorForm.get('personTitle').invalid,
                                     'has-success': visitorForm.get('personTitle').valid}">
-                        <label class="control-label" for="personTitle">Title</label>
+                        <label class="control-label" for="personTitle">Title <small><i>(required)</i></small></label>
                         <select class="form-control" formControlName="personTitle" id="personTitle">
                                         <option *ngFor="let title of titles" [ngValue]="title.title" >{{ title.title }}</option>
                             </select>
@@ -25,7 +25,7 @@
                     <div class="form-group has-feedback" [ngClass]="{
                                     'has-error': visitorForm.get('fullName').invalid,
                                     'has-success': visitorForm.get('fullName').valid}">
-                        <label class="control-label" for="fullName">Full Name</label>
+                        <label class="control-label" for="fullName">Full Name <small><i>(required)</i></small></label>
                         <div>
                             <input type="text" class="form-control" formControlName="fullName" />
                             <span class="glyphicon glyphicon-ok form-control-feedback" style="top:24px !important;" [ngClass]="{
@@ -60,8 +60,8 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <div>Church</div>
-                        <select class="form-control" formControlName="church">
+                        <label class="control-label" for="church">Church <small><i>(required)</i></small></label>
+                        <select class="form-control" formControlName="church" id="church">
                                 <option></option>
                             </select>
                     </div>
@@ -85,7 +85,7 @@
                     <div class="form-group has-feedback" [ngClass]="{
                                 'has-error': visitorForm.get('dateAttended').invalid,
                                 'has-success': visitorForm.get('dateAttended').valid}">
-                        <label class="control-label" for="dateAttended">Date Attended</label>
+                        <label class="control-label" for="dateAttended">Date Attended <small><i>(required)</i></small> </label>
                         <div class="input-group">
                             <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker formControlName="dateAttended" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" />
 
@@ -162,7 +162,7 @@
                     <button class="btn" (click)="cancelAction()">Cancel</button>
                 </div>
                 <div class="col-md-6">
-                    <button class="btn btn-success pull-right" type="submit" [disabled]="visitorForm.pristine">Save</button>
+                    <button class="btn btn-success pull-right" type="submit" [disabled]="visitorForm.pristine || visitorForm.untouched">Save</button>
                 </div>
             </div>
             <br/>

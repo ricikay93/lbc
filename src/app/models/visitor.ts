@@ -7,116 +7,116 @@ export class Visitor {
         this.dateAttended = dateAttended;
     }
 
-    get title(): string {
-        return this._title;
-    }
+    // get title(): string {
+    //     return this.title;
+    // }
 
-    set title(newTitle: string) {
-        this._title = newTitle;
-    }
+    // set title(newTitle: string) {
+    //     this.title = newTitle;
+    // }
 
-    get fullName(): string {
-        return this._fullName;
-    }
+    // get fullName(): string {
+    //     return this.fullName;
+    // }
 
-    set fullName(newName: string) {
-        this._fullName = newName;
-    }
+    // set fullName(newName: string) {
+    //     this.fullName = newName;
+    // }
 
-    get telephone(): string {
-        return this._telephone;
-    }
+    // get telephone(): string {
+    //     return this.telephone;
+    // }
 
-    set telephone(newTele: string) {
-        this._telephone = newTele;
-    }
+    // set telephone(newTele: string) {
+    //     this.telephone = newTele;
+    // }
 
-    get church(): number {
-        return this._church;
-    }
+    // get church(): number {
+    //     return this.church;
+    // }
 
-    set church(newChurch: number) {
-        this._church = newChurch;
-    }
+    // set church(newChurch: number) {
+    //     this.church = newChurch;
+    // }
 
-    set guestOf(newInvitee: string) {
-        this._guestOf = newInvitee;
-    }
+    // set guestOf(newInvitee: string) {
+    //     this.guestOf = newInvitee;
+    // }
 
-    get guestOf() {
-        return this._guestOf;
-    }
+    // get guestOf() {
+    //     return this.guestOf;
+    // }
 
-    set id(newId: number) {
-        this._id = newId;
-    }
+    // set id(newId: number) {
+    //     this.id = newId;
+    // }
 
-    get id() {
-        return this._id;
-    }
+    // get id() {
+    //     return this.id;
+    // }
 
-    set ageGroup(newAge: string) {
-        this._ageGroup = newAge;
-    }
+    // set ageGroup(newAge: string) {
+    //     this.ageGroup = newAge;
+    // }
 
-    get ageGroup() {
-        return this._ageGroup;
-    }
+    // get ageGroup() {
+    //     return this.ageGroup;
+    // }
 
-    set address(add: string) {
-        this._address = add;
-    }
+    // set address(add: string) {
+    //     this.address = add;
+    // }
 
-    get address() {
-        return this._address;
-    }
+    // get address() {
+    //     return this.address;
+    // }
 
-    get dateAttended() {
-        return this._dateAttended;
-    }
+    // get dateAttended() {
+    //     return this.dateAttended;
+    // }
 
-    set dateAttended(date: Date) {
-        this._dateAttended = date;
-    }
+    // set dateAttended(date: Date) {
+    //     this.dateAttended = date;
+    // }
 
-    get lastModified() {
-        return this._lastModified;
-    }
+    // get lastModified() {
+    //     return this.lastModified;
+    // }
 
-    set lastModified(update: Date) {
-        this._lastModified = update;
-    }
+    // set lastModified(update: Date) {
+    //     this.lastModified = update;
+    // }
 
-    get createdAt() {
-        return this._createdAt;
-    }
+    // get createdAt() {
+    //     return this.createdAt;
+    // }
 
-    set createdAt(create: Date) {
-        this._createdAt = create;
-    }
+    // set createdAt(create: Date) {
+    //     this.createdAt = create;
+    // }
 
-    get email(){
-        return this._email;
-    }
+    // get email(){
+    //     return this.email;
+    // }
 
-    set email(e: string){
-        this._email = e;
-    }
+    // set email(e: string){
+    //     this.email = e;
+    // }
 
 
-    private _id: number;
-    private _title: string;
-    private _fullName: string;
-    private _address: string;
-    private _telephone: string;
-    private _email: string;
-    private _guestOf: string;
-    private _church: number;
-    private _reasonVisiting: string;
-    private _ageGroup: string;
-    private _dateAttended: Date;
-    private _lastModified: Date;
-    private _createdAt: Date;
+     id: number;
+     title: string;
+     fullName: string;
+     address: string;
+     telephone: string;
+     email: string;
+     guestOf: string;
+     church: number;
+     reasonVisiting: string;
+     ageGroup: string;
+     dateAttended: Date;
+     lastModified: Date;
+     createdAt: Date;
 }
 
 

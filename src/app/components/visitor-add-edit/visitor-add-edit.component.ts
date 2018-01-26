@@ -170,28 +170,32 @@ export class VisitorAddEditComponent implements OnInit {
   }
 
 
-  saveVisitor(form: FormGroup): void {
-    if (form.valid) {
+  saveVisitor(): void {
+    if (this.visitorForm.valid) {
       const circuitID = Number(this.route.snapshot.params['id']);
 
       if (circuitID) {
         this.visitorService.updateVisitor(this.visitorForm.value, circuitID).subscribe(
-          result => { alert('Message: ' + result.message); this.pubSubService.publish('visitors-updated'); }
+          result => {
+            alert('Message: ' + result.message);
+            this.pubSubService.publish('visitors-updated');
+            this.goBack();
+          }
         );
       } else {
 
         this.visitorService.saveVisitor(this.visitorForm.value).subscribe(
-          result => { alert('Message: ' + result.message); this.pubSubService.publish('visitors-updated'); }
+          result => {
+            alert('Message: ' + result.message); this.pubSubService.publish('visitors-updated');
+            this.goBack();
+          }
         );
-
-        console.log('form ' + form);
 
       }
 
-      // redirect to users view
-      this.goBack();
     } else {
       this.invalid = true;
+      console.log('visitor cantbesave' + JSON.stringify(this.visitorForm.errors));
     }
 
 
