@@ -5,7 +5,7 @@ import {Church} from '../../models/';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs/Subscription';
-import {PubSubService, ChurchService } from '../../services/';
+import {PubSubService, ChurchService, VisitorService } from '../../services/';
 @Component({
   selector: 'app-visitors',
   templateUrl: './visitors.component.html',
@@ -19,23 +19,18 @@ parents: any[];
     private route: ActivatedRoute,
     private renderer: Renderer,
     private pubSubService: PubSubService,
-  ) {
-    this.parents =
-    [
-      {'title': 'Node 1',
-        'children': []
-      }
-    ];
-  }
+    private visitorService: VisitorService
+  ) { }
 
   ngOnInit() {
+    this.visitorService.getParentNodes().subscribe(parents => this.parents = parents);
   }
 
   addVisitor(): void {
      this.router.navigate([ './main/visitors', { outlets: { 'task': ['add'] } }]);
   }
 
-  loadChildren(message:string):void {
-    alert(message);
+  loadChildren(message: string): void {
+
   }
 }

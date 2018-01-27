@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Visitor, Message } from '../models';
+import { Model } from '../components/tree/models';
 @Injectable()
 export class VisitorService {
 
@@ -43,17 +44,25 @@ export class VisitorService {
 
     const telephones = '';
 
-    const visitor = new Visitor(visitorObj.title, visitorObj.fullName, visitorObj.church, visitorObj.dateAttended.jsDate);
+    const visitor = new Visitor(visitorObj.personTitle, visitorObj.fullName, visitorObj.church, visitorObj.dateAttended.jsDate);
 
-    // visitor.address = visitorObj.address;
-    // visitor.ageGroup = visitorObj.ageGroup;
-    // visitor.email = visitorObj.email;
-    // visitor.guestOf = visitorObj.guestOf;
+    visitor.address = visitorObj.address;
+    visitor.ageGroup = visitorObj.ageGroup;
+    visitor.email = visitorObj.email;
+    visitor.guestOf = visitorObj.guestOf;
+    visitor.reasonVisiting = visitorObj.reasonAttended;
 
-    // if (visitorObj.telephone && visitorObj.telephone.length > 0) {
-    //   // set list to joined string
-    //   visitor.telephone = visitorObj.telephone;
-    // }
+    if (visitorObj.telephone && visitorObj.telephone.length > 0) {
+      // set list to joined string
+      // visitor.telephone = visitorObj.telephone.join();
+      for (const telephone in visitorObj.telephone) {
+        if (telephone in visitorObj.telephone) {
+
+        }
+      }
+    }
+
+    console.log('visitor:' + JSON.stringify(visitor));
 
     return visitor;
 
@@ -67,6 +76,37 @@ export class VisitorService {
       { 'title': 'Mrs' }
     ];
   }
+
+  getParentNodes(): Observable<any[]> {
+    const url = this.visitorUrl + '/parents';
+
+    return this.http.get(url).map(res => {
+      return res.json().map(item => {
+        console.log('item: ' + JSON.stringify(item));
+        return {
+          title: item.parent + ' (' + item.total + ')',
+          parent: item.parent,
+          total: item.total,
+          children: []
+        };
+      });
+    });
+  }
+
+  getChildrenNode(parent: string): Observable<any[]> {
+    const url = this.visitorUrl + '/parents/visitors' + parent;
+
+    return this.http.get(url).map(res => {
+      return res.json().map(item => {
+        return {
+          title: item.fullName + '<small>' + item.title + '</small>',
+          // title: item.parent ,
+          parent: item.id
+        };
+      });
+    });
+  }
+
 
   getErrorMessages(form): Observable<any> {
     return this.http.get('../../assets/messages.json')

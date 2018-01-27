@@ -1,6 +1,8 @@
-var Sequelize = require('sequelize');
-const Op = Sequelize.Op;
+var Sequelize = require('sequelize')
+db_config = require('../db');
 
+const Op = Sequelize.Op;
+let sequelize_conn = db_config.sequelize;
 
 let visitor = require('../models/visitor');
 let Visitor = visitor.Visitor;
@@ -11,12 +13,41 @@ let Visitor = visitor.Visitor;
 let church = require('../models/church');
 let Church = church.Church
 
-// let lookUp = require('../models/lookUp');
-// let Parish = lookUp.Parish;
-// let ContactType = lookUp.ContactType;
-// let Month = lookUp.Month;
-// let Profession = lookUp.Profession;
-// let Skill = lookUp.Skill;
+
+
+// queries for filters/autocomplete functionalities
+
+var get_parent_nodes = function(req, res) {
+
+    sequelize_conn.query('SELECT ifnull(substr(fullName,1, 1), "unknown") as parent, COUNT(*) AS `total`' +
+            'FROM churchVisitors GROUP BY parent', {
+                type: Sequelize.QueryTypes.SELECT
+            })
+        .then(churchVisitors => {
+            console.log(churchVisitors);
+            res.json(churchVisitors);
+        });
+};
+
+
+var get_inviter_autocomplete = function(req, res) {
+    var val = req.params.lookup;
+    sequelize_conn.query("select distinct c.guestOf from churchVisitors c where " +
+            " c.guestOf is not null and c.guestOf like '%" + val + "%'", { type: Sequelize.QueryTypes.SELECT })
+        .then(churchVisitors => {
+            console.log(churchVisitors);
+        });
+};
+
+var get_children_nodes = function(req, res) {
+    var val = req.params.letter;
+
+    sequelize_conn.query("select id, fullName, title from churchVisitors where " +
+            " fullName like '" + val + "%' order by 'asc'", { type: Sequelize.QueryTypes.SELECT })
+        .then(churchVisitors => {
+            console.log(churchVisitors);
+        });
+}
 
 var add_visitor = function(req, res) {
     Visitor.create(req.body).then(function(result) {
@@ -89,5 +120,8 @@ module.exports = {
     addVisitor: add_visitor,
     updateVisitor: edit_visitor,
     deleteVisitor: delete_visitor,
-    getChurchVisitors: get_church_visitors
+    getChurchVisitors: get_church_visitors,
+    getParentNodes: get_parent_nodes,
+    getInviteesAutoComplete: get_inviter_autocomplete,
+    getVisitorsByLetter: get_children_nodes
 }
