@@ -1,6 +1,6 @@
 div.treeview {
     min-width: 100px;
-    height: 500px;
+    height: 100%;
     overflow: auto;
     padding: 4px;
     margin-bottom: 20px;
