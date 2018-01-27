@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 
 
 import $ from 'jquery';
@@ -7,7 +7,7 @@ import $ from 'jquery';
   templateUrl: './tree.component.html',
   styleUrls: ['./tree.component.css']
 })
-export class TreeComponent implements OnInit {
+export class TreeComponent implements OnInit, AfterViewInit {
   @Input() parents: any[];
   @Output() notify: EventEmitter<string> = new EventEmitter<string>();
 
@@ -16,16 +16,15 @@ export class TreeComponent implements OnInit {
   ngOnInit() {
     console.log(JSON.stringify(this.parents));
 
+  }
 
-    // const allEle = $('li');
-    console.log($('ul#treeview-tree').children());
-// console.log($('#treeview-tree').children().length);
-    // $('.treeview').find('.tree-branch').each(function (target) {
-    //   // target.children('ul').hide();
-    //   console.log('target' + target);
-    //   console.log('Child' + target.children());
-    // });
-    // tree.find('li').has("ul").each(function () {
+  ngAfterViewInit() {
+
+    $('.treeview').find('.tree-branch').each(function () {
+      const branch = $(this); // li with children ul
+      branch.children('ul').toggle();
+    });
+
   }
 
   toggleItem(item: string, event) {
@@ -42,23 +41,8 @@ export class TreeComponent implements OnInit {
       }
 
       target.children('ul').toggle();
-
+      event.preventDefault();
     }
-
-    // const icon = $(target).children('i:first');
-    // console.log(target.closest('li'));
-    // console.log(target.closest('li').hasClass('tree-branch'));
-    // if (target.parent().parent().is('li')) {
-    //   target.parent().parent().children().toggle();
-    // }else {
-    //   console.log(target.parent().parent());
-    // }
-    // const icon = $(event.target).children('i:first');
-
-    // icon.toggleClass('glyphicon-chevron-down');
-    //  icon.toggleClass("glyphicon-chevron-down glyphicon-chevron-right");
-
-    // 
   }
 
 
