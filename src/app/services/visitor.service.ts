@@ -4,6 +4,9 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Visitor, Message } from '../models';
 import { Model } from '../components/tree/models';
+
+import * as _ from 'lodash';
+
 @Injectable()
 export class VisitorService {
 
@@ -81,27 +84,29 @@ export class VisitorService {
     const url = this.visitorUrl + '/parents';
 
     return this.http.get(url).map(res => {
-      return res.json().map(item => {
-        console.log('item: ' + JSON.stringify(item));
+      // console.log(res);
+const values = res.json();
+
+      return values.map(item => {
         return {
-          title: item.parent + ' (' + item.total + ')',
-          parent: item.parent,
-          total: item.total,
-          children: []
+          name: item.parent.charAt(0).toUpperCase() + item.parent.slice(1) + ' (' + item.total + ')',
+          id: item.parent,
+          hasChildren: true
         };
       });
     });
   }
 
   getChildrenNode(parent: string): Observable<any[]> {
-    const url = this.visitorUrl + '/parents/visitors' + parent;
+    const url = this.visitorUrl + '/parents/visitors/' + parent;
 
     return this.http.get(url).map(res => {
+      console.log(JSON.stringify(res.json()));
       return res.json().map(item => {
         return {
-          title: item.fullName + '<small>' + item.title + '</small>',
-          // title: item.parent ,
-          parent: item.id
+          name: item.fullName.charAt(0).toUpperCase() + item.parent.slice(1) + '<small>' + item.title + '</small>',
+          id: item.id,
+          hasChildren: false
         };
       });
     });
@@ -115,5 +120,15 @@ export class VisitorService {
 
         return items[form];
       });
+  }
+
+  searchInviters(term: string): Observable<any[]> {
+    const url = this.visitorUrl + '/inviter/' + term;
+    return this.http.get(url).map(res => {
+      console.log(JSON.stringify(res.json()));
+      return res.json().map(item => {
+        return item.guestOf;
+      });
+    });
   }
 }

@@ -20,7 +20,18 @@
                 </div>
                 <div class="panel-body">
                     <!-- TREEVIEW CODE -->
-                    <app-tree-view [parents]="parents" (notify)="loadChildren($event)"></app-tree-view>
+                    <div>
+                        <div>
+                            <select class="form-control" (change)="changeParentByChurch($event.target.value)">
+                                <option>All</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="padding-left:23px;padding-right:23px;padding-top:9px;">
+                        <tree-root #tree [nodes]="nodes" [options]="options"></tree-root>
+                    </div>
+
+                    <!-- <app-tree-view [parents]="parents" (notify)="loadChildren($event)"></app-tree-view> -->
                     <!-- TREEVIEW CODE -->
                 </div>
             </div>

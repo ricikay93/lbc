@@ -19,8 +19,8 @@ let Church = church.Church
 
 var get_parent_nodes = function(req, res) {
 
-    sequelize_conn.query('SELECT ifnull(substr(fullName,1, 1), "unknown") as parent, COUNT(*) AS `total`' +
-            'FROM churchVisitors GROUP BY parent', {
+    sequelize_conn.query('SELECT ifnull(substr(fullName,1, 1), "unknown") as parent, COUNT(*) AS `total` ' +
+            'FROM churchVisitors GROUP BY parent order by fullName "desc"', {
                 type: Sequelize.QueryTypes.SELECT
             })
         .then(churchVisitors => {
@@ -36,6 +36,7 @@ var get_inviter_autocomplete = function(req, res) {
             " c.guestOf is not null and c.guestOf like '%" + val + "%'", { type: Sequelize.QueryTypes.SELECT })
         .then(churchVisitors => {
             console.log(churchVisitors);
+            res.json(churchVisitors);
         });
 };
 
@@ -46,6 +47,7 @@ var get_children_nodes = function(req, res) {
             " fullName like '" + val + "%' order by 'asc'", { type: Sequelize.QueryTypes.SELECT })
         .then(churchVisitors => {
             console.log(churchVisitors);
+            res.json(churchVisitors);
         });
 }
 
@@ -123,5 +125,6 @@ module.exports = {
     getChurchVisitors: get_church_visitors,
     getParentNodes: get_parent_nodes,
     getInviteesAutoComplete: get_inviter_autocomplete,
-    getVisitorsByLetter: get_children_nodes
+    getVisitorsByLetter: get_children_nodes,
+    getInvitersAutoComplete: get_inviter_autocomplete
 }
