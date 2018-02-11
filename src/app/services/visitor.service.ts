@@ -88,28 +88,30 @@ export class VisitorService {
 const values = res.json();
 
       return values.map(item => {
+        const parent = item.parent === 'unknown' ? null : item.parent;
         return {
           name: item.parent.charAt(0).toUpperCase() + item.parent.slice(1) + ' (' + item.total + ')',
           id: item.parent,
-          hasChildren: true
+          hasChildren: true,
+          isFolder: true,
         };
       });
     });
   }
 
-  getChildrenNode(parent: string): Observable<any[]> {
+  getChildrenNode(parent: string): Promise<any[]> {
     const url = this.visitorUrl + '/parents/visitors/' + parent;
-
     return this.http.get(url).map(res => {
-      console.log(JSON.stringify(res.json()));
       return res.json().map(item => {
+
         return {
-          name: item.fullName.charAt(0).toUpperCase() + item.parent.slice(1) + '<small>' + item.title + '</small>',
+          name: item.fullName.charAt(0).toUpperCase() + item.fullName.slice(1) ,
           id: item.id,
-          hasChildren: false
+          hasChildren: false,
+          isFolder: false,
         };
       });
-    });
+    }).toPromise();
   }
 
 

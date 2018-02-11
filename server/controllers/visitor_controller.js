@@ -20,7 +20,7 @@ let Church = church.Church
 var get_parent_nodes = function(req, res) {
 
     sequelize_conn.query('SELECT ifnull(substr(fullName,1, 1), "unknown") as parent, COUNT(*) AS `total` ' +
-            'FROM churchVisitors GROUP BY parent order by fullName "desc"', {
+            'FROM churchVisitors GROUP BY parent order by fullName desc', {
                 type: Sequelize.QueryTypes.SELECT
             })
         .then(churchVisitors => {
