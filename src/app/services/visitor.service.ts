@@ -23,7 +23,7 @@ export class VisitorService {
 
   getVisitorByCode(id: number): Observable<Visitor> {
     const url = this.visitorUrl + '/' + id;
-    return this.http.get(url).map(res => res.json());
+    return this.http.get(url).map(res => <Visitor>res.json());
   }
 
   deleteVisitor(id: number): Observable<Message> {

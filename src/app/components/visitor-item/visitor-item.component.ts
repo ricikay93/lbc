@@ -1,11 +1,9 @@
 import { Component, OnInit, Renderer, OnDestroy } from '@angular/core';
 
-import {Church} from '../../models/';
-import { Router, ActivatedRoute } from '@angular/router';
-
+import { Church, Visitor } from '../../models/';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import {PubSubService, ChurchService } from '../../services/';
-
+import { LookUpService, PubSubService, CircuitService, ChurchService, VisitorService } from '../../services/';
 import * as $ from 'jquery';
 import swal, { SweetAlertOptions } from 'sweetalert2';
 
@@ -15,25 +13,31 @@ import swal, { SweetAlertOptions } from 'sweetalert2';
   styleUrls: ['./visitor-item.component.css']
 })
 export class VisitorItemComponent implements OnInit {
+  private sub: Subscription;
 
+  visitor: Visitor;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private renderer: Renderer,
-    private pubSubService: PubSubService
+    private pubSubService: PubSubService,
+    private visitorService: VisitorService
+
   ) { }
 
   ngOnInit() {
+    this.sub = this.route.params.subscribe((params: Params) => {
+      this.visitorService.getVisitorByCode(+params['id']).subscribe(data => {this.visitor = data;  });
+    });
   }
 
 
   editVisitor(): void {
-   // this.router.navigate([ '/main/circuit/churches', { outlets: { 'task': ['edit', 6] } }]);
+    this.router.navigate(['/main/visitors', { outlets: { 'task': ['edit', 6] } }]);
   }
 
   deleteVisitor(): void {
-    // const service = this.churchService;
-    // const update = this.pubSubService;
+    const service = this.visitorService;
     swal({
       title: 'Are you sure?',
       text: 'You wont be able to revert this!',
@@ -44,12 +48,10 @@ export class VisitorItemComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then(function (result) {
       if (result.value) {
-      //  service.deleteChurch(id).subscribe(
-      //     res => {
-            swal('Deleted!', 'Success', 'success' );
-      //      update.publish('churches-updated');
-      //     }
-      //   );
+        service.deleteVisitor(this.visitor.id).subscribe(res => {
+          swal('Deleted!', 'Success', 'success');
+          //      update.publish('churches-updated');
+        });
       }
     });
   }

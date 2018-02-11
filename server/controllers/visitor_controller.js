@@ -44,7 +44,7 @@ var get_children_nodes = function(req, res) {
     var val = req.params.letter;
 
     sequelize_conn.query("select id, fullName, title from churchVisitors where " +
-            " fullName like '" + val + "%' order by 'asc'", { type: Sequelize.QueryTypes.SELECT })
+            " fullName like '" + val + "%' order by  fullName desc", { type: Sequelize.QueryTypes.SELECT })
         .then(churchVisitors => {
             console.log(churchVisitors);
             res.json(churchVisitors);

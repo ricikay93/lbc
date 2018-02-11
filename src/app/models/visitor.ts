@@ -115,7 +115,7 @@ export class Visitor {
      reasonVisiting: string;
      ageGroup: string;
      dateAttended: Date;
-     lastModified: Date;
+    updatedAt: Date;
      createdAt: Date;
 }
 

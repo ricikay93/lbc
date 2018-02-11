@@ -1,6 +1,6 @@
 <div class="text-right">
     <!-- Single button -->
-    <h3>Mr Davif Jones</h3>
+    <h3>{{visitor?.title}} {{visitor?.fullName}}</h3>
     <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 Options <span class="caret"></span>
@@ -19,35 +19,35 @@ Options <span class="caret"></span>
                     <!-- Nav tabs -->
                     <div class="row">
                         <div class="col-md-2 col-sm-2 label">Age Group</div>
-                        <div class="col-md-10 col-sm-10 info">7-12</div>
+                        <div class="col-md-10 col-sm-10 info">{{visitor?.ageGroup || 'No Age Group Specified'}}</div>
                     </div>
                     <div class="row">
                         <div class="col-md-2  col-sm-2 label">Address</div>
-                        <div class="col-md-10  col-sm-10 info"><address>34 Flecthers Avenue<br/> Linstead,<br/>St.Catherine</address></div>
+                        <div class="col-md-10  col-sm-10 info"><address>{{visitor?.address || 'No Address Specified'}}</address></div>
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2 label">Telephone Number(s)</div>
-                        <div class="col-md-10 col-sm-10 info">(876) 456-2433; (876)543-3452</div>
+                        <div class="col-md-10 col-sm-10 info">{{visitor?.telephone || 'No Contacts Specified'}}</div>
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2 label">Email Address</div>
-                        <div class="col-md-10 col-sm-10 info">youremail@email.com</div>
+                        <div class="col-md-10 col-sm-10 info">{{visitor?.email || 'No Email Specified'}}</div>
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2 label">Invited By</div>
-                        <div class="col-md-10 col-sm-10 info">Jim Jones</div>
+                        <div class="col-md-10 col-sm-10 info">{{visitor?.guestOf || 'No Inviter Specified'}}</div>
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2 label">Church Invited TO</div>
-                        <div class="col-md-10 col-sm-10 info">sdewe</div>
+                        <div class="col-md-10 col-sm-10 info">{{visitor?.church || 'No Church Specified'}}</div>
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2 label">Reason for Visiting</div>
-                        <div class="col-md-10 col-sm-10 info">sdewe</div>
+                        <div class="col-md-10 col-sm-10 info">{{visitor?.reasonVisiting || 'No Reason Specfied'}}</div>
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-sm-2 label">Date Attended</div>
-                        <div class="col-md-10 col-sm-10 info">August 3, 1879</div>
+                        <div class="col-md-10 col-sm-10 info">{{visitor?.dateAttended | date:'MMMM dd, yyyy' || 'No Date Specified'}}</div>
                     </div>
                 </div>
             </div>

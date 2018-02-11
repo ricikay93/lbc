@@ -10,9 +10,7 @@ import { PubSubService, ChurchService, VisitorService } from '../../services/';
 import { TreeComponent, TreeModel, ITreeOptions, TreeNode } from 'angular-tree-component';
 
 import { TREE_ACTIONS, KEYS, IActionMapping } from 'angular-tree-component';
-// import { ITreeOptions, TreeNode} from 'angular-tree-component';
 
-// declare var $: any;
 
 @Component({
   selector: 'app-visitors',
@@ -22,37 +20,26 @@ import { TREE_ACTIONS, KEYS, IActionMapping } from 'angular-tree-component';
 export class VisitorsComponent implements OnInit {
   parents: any[];
   children: any[];
+  nodes: any[] = [];
+
   options: ITreeOptions = {
     // loadingComponent: 'loading, please wait...',
     actionMapping: {
       mouse: {
         keys: {
-          [KEYS.ENTER]: (tree, node, $event) => alert(`This is ${node.data.name}`)
+          [KEYS.ENTER]: (tree, node, $event) => this.nodeSelectionEvent(tree, node, $event)
         },
-        click: (tree, node, $event) => {
-          if (!node.hasChildren) {
-           // alert('This is ' + node.data.id);
-            this.router.navigate(['./main/visitors/view/', node.data.id]);
-          } else {
-            // if parent is select toggle expanding said node
-           node.toggleExpanded();
-          }
-
-        },
+        click: (tree, node, $event) => this.nodeSelectionEvent(tree, node, $event),
         loadingComponent: 'loading, please wait...,',
         contextMenu: (model: any, node: any, event: any) => {
-          // this.onContextMenu(event, node.data.name);
-          console.log('in context menu...');
+          if (!node.hasChildren) {
+            this.onContextMenu(event, node.data.name);
+          }
         }
       }
     },
     getChildren: this.getChildren.bind(this)
   };
-
-  nodes: any[] = [];
-
-
-
 
   constructor(
     private router: Router,
@@ -68,10 +55,21 @@ export class VisitorsComponent implements OnInit {
     this.visitorService.getParentNodes().subscribe(parents => this.nodes = parents);
   }
 
+  onContextMenu(event, name): void {
+    console.log('in context menu... ' + name);
+  }
+
+  nodeSelectionEvent(tree, node, $event): void {
+    if (!node.hasChildren) {
+      this.router.navigate(['./main/visitors/view/', node.data.id]);
+    } else {
+      // if parent is select toggle expanding said node
+     node.toggleExpanded();
+    }
+  }
+
   getChildren(node: TreeNode) {
-
     return this.visitorService.getChildrenNode(node.id);
-
   }
 
   changeParentByChurch(value: any) {
