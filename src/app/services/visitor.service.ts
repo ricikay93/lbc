@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Visitor, Message } from '../models';
-import { Model } from '../components/tree/models';
+
 
 import * as _ from 'lodash';
 
